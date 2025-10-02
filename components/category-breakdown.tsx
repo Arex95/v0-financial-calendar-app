@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { formatCurrency } from "@/lib/financial-utils"
+import { cn } from "@/lib/utils"
 
 interface CategoryBreakdownProps {
   title: string
@@ -16,27 +17,28 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
 
   if (entries.length === 0) {
     return (
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">{title}</h3>
-        <p className="text-muted-foreground text-center py-8">No hay datos disponibles</p>
+      <Card className="p-4 md:p-6">
+        <h3 className="text-base md:text-lg font-semibold mb-4">{title}</h3>
+        <p className="text-muted-foreground text-center py-8 text-sm">No hay datos disponibles</p>
       </Card>
     )
   }
 
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
+    <Card className="p-4 md:p-6">
+      <h3 className="text-base md:text-lg font-semibold mb-4">{title}</h3>
       <div className="space-y-4">
         {entries.map(([category, amount]) => {
           const percentage = (amount / total) * 100
           return (
             <div key={category}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{category}</span>
+              <div className="flex items-center justify-between mb-2 gap-2">
+                <span className="text-xs md:text-sm font-medium truncate">{category}</span>
                 <span
-                  className={`text-sm font-bold ${
-                    type === "income" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
-                  }`}
+                  className={cn(
+                    "text-xs md:text-sm font-bold flex-shrink-0",
+                    type === "income" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
+                  )}
                 >
                   {formatCurrency(amount)}
                 </span>
@@ -47,7 +49,7 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
                   className="flex-1"
                   indicatorClassName={type === "income" ? "bg-green-500" : "bg-red-500"}
                 />
-                <span className="text-xs text-muted-foreground w-12 text-right">{percentage.toFixed(1)}%</span>
+                <span className="text-xs text-muted-foreground w-10 md:w-12 text-right">{percentage.toFixed(1)}%</span>
               </div>
             </div>
           )
