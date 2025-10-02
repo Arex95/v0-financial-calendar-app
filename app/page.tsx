@@ -11,6 +11,7 @@ import { FinancialSummary } from "@/components/financial-summary"
 import { TransactionsList } from "@/components/transactions-list"
 import { CategoryBreakdown } from "@/components/category-breakdown"
 import { MonthlyTrendChart } from "@/components/monthly-trend-chart"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { storage } from "@/lib/storage"
 import { calculateFinancialStats } from "@/lib/financial-utils"
 import type { CalendarEvent } from "@/lib/types"
@@ -72,26 +73,44 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-border bg-gradient-to-r from-card via-card to-card/95 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
+        <div className="container mx-auto px-4 py-5">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-balance">Calendario Financiero</h1>
-            <Button onClick={handleNewEvent}>
-              <Plus className="h-4 w-4 mr-2" />
-              Nuevo evento
-            </Button>
+            <div>
+              <h1 className="text-3xl font-bold text-balance bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Calendario Financiero
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">Gestiona tus finanzas y eventos en un solo lugar</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <Button
+                onClick={handleNewEvent}
+                size="lg"
+                className="rounded-full shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                Nuevo evento
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="calendar" className="space-y-6">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-            <TabsTrigger value="calendar" className="flex items-center gap-2">
+      <main className="container mx-auto px-4 py-10">
+        <Tabs defaultValue="calendar" className="space-y-8">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 h-12 p-1 bg-muted/50 rounded-full">
+            <TabsTrigger
+              value="calendar"
+              className="flex items-center gap-2 rounded-full data-[state=active]:shadow-md"
+            >
               <Calendar className="h-4 w-4" />
               Calendario
             </TabsTrigger>
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+            <TabsTrigger
+              value="dashboard"
+              className="flex items-center gap-2 rounded-full data-[state=active]:shadow-md"
+            >
               <BarChart3 className="h-4 w-4" />
               Dashboard
             </TabsTrigger>
@@ -101,7 +120,7 @@ export default function Home() {
             <CalendarView events={events} onDateClick={handleDateClick} onEventClick={handleEventClick} />
           </TabsContent>
 
-          <TabsContent value="dashboard" className="space-y-6">
+          <TabsContent value="dashboard" className="space-y-8">
             <FinancialSummary stats={stats} />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
