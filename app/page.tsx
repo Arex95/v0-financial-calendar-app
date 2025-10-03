@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar, BarChart3, Plus, LogOut } from "lucide-react"
+import { Calendar, BarChart3, Plus, LogOut, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CalendarView } from "@/components/calendar-view"
@@ -153,15 +153,23 @@ export default function Home() {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background">
-        <header className="border-b border-border bg-gradient-to-r from-card via-card to-card/95 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
-          <div className="container mx-auto px-4 py-4 md:py-5">
+      <div className="min-h-screen bg-background relative">
+        <header className="border-b-2 border-glow-cyan bg-card/50 backdrop-blur-md sticky top-0 z-10 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 pointer-events-none" />
+          <div className="container mx-auto px-4 py-4 md:py-6 relative">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-balance bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  Calendario Financiero
-                </h1>
-                <p className="text-xs md:text-sm text-muted-foreground mt-1">Sincronizado con Google Calendar</p>
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/20 rounded-lg border border-primary glow-cyan">
+                  <Zap className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-bold text-balance text-primary text-glow-cyan tracking-wider uppercase">
+                    Calendario Financiero
+                  </h1>
+                  <p className="text-xs md:text-sm text-muted-foreground mt-1">
+                    <span className="text-secondary">●</span> Sincronizado con Google Calendar
+                  </p>
+                </div>
               </div>
               <div className="flex items-center gap-2 md:gap-3 w-full sm:w-auto">
                 <ThemeToggle />
@@ -169,7 +177,7 @@ export default function Home() {
                   onClick={() => signOut({ callbackUrl: "/auth/signin" })}
                   variant="outline"
                   size="lg"
-                  className="rounded-full"
+                  className="border-2 border-muted-foreground/30 hover:border-destructive hover:text-destructive transition-all"
                 >
                   <LogOut className="h-4 w-4 md:mr-2" />
                   <span className="hidden md:inline">Cerrar sesión</span>
@@ -177,7 +185,7 @@ export default function Home() {
                 <Button
                   onClick={handleNewEvent}
                   size="lg"
-                  className="rounded-full shadow-lg hover:shadow-xl transition-shadow flex-1 sm:flex-none"
+                  className="bg-primary hover:bg-primary/80 text-primary-foreground border-2 border-primary glow-cyan transition-all flex-1 sm:flex-none font-semibold uppercase tracking-wide"
                 >
                   <Plus className="h-4 w-4 md:h-5 md:w-5 mr-2" />
                   <span className="hidden sm:inline">Nuevo evento</span>
@@ -190,10 +198,10 @@ export default function Home() {
 
         <main className="container mx-auto px-4 py-6 md:py-10">
           <Tabs defaultValue="calendar" className="space-y-6 md:space-y-8">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 h-11 md:h-12 p-1 bg-muted/50 rounded-full">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 h-12 md:h-14 p-1 bg-card border-2 border-primary/30 glow-cyan">
               <TabsTrigger
                 value="calendar"
-                className="flex items-center gap-2 rounded-full data-[state=active]:shadow-md text-sm md:text-base"
+                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:glow-cyan text-sm md:text-base font-semibold uppercase tracking-wide transition-all"
               >
                 <Calendar className="h-4 w-4" />
                 <span className="hidden sm:inline">Calendario</span>
@@ -201,7 +209,7 @@ export default function Home() {
               </TabsTrigger>
               <TabsTrigger
                 value="dashboard"
-                className="flex items-center gap-2 rounded-full data-[state=active]:shadow-md text-sm md:text-base"
+                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:glow-cyan text-sm md:text-base font-semibold uppercase tracking-wide transition-all"
               >
                 <BarChart3 className="h-4 w-4" />
                 Dashboard

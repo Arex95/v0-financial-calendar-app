@@ -19,32 +19,42 @@ export function TransactionsList({ events, onEventClick }: TransactionsListProps
 
   if (financialEvents.length === 0) {
     return (
-      <Card className="p-4 md:p-6 border-border/50 shadow-lg">
-        <h3 className="text-base md:text-lg font-semibold mb-4">Transacciones recientes</h3>
+      <Card className="p-4 md:p-6 border-2 border-primary/30 border-glow-cyan shadow-lg bg-card/80 backdrop-blur-sm">
+        <h3 className="text-base md:text-lg font-semibold mb-4 text-primary uppercase tracking-wide">
+          Transacciones recientes
+        </h3>
         <p className="text-muted-foreground text-center py-8 text-sm">No hay transacciones registradas</p>
       </Card>
     )
   }
 
   return (
-    <Card className="p-5 md:p-7 border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <div className="mb-6">
-        <h3 className="text-base md:text-lg font-semibold mb-1">Transacciones recientes</h3>
+    <Card className="p-5 md:p-7 border-2 border-primary/30 border-glow-cyan shadow-lg hover:shadow-2xl transition-all duration-300 bg-card/80 backdrop-blur-sm relative overflow-hidden group">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50 pointer-events-none" />
+      <div className="mb-6 relative z-10">
+        <h3 className="text-base md:text-lg font-semibold mb-1 text-primary uppercase tracking-wide text-glow-cyan">
+          Transacciones recientes
+        </h3>
         <p className="text-xs md:text-sm text-muted-foreground">Últimas {financialEvents.length} transacciones</p>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2 relative z-10">
         {financialEvents.map((event) => (
           <div
             key={event.id}
             onClick={() => onEventClick(event)}
-            className="flex items-center justify-between p-3 md:p-4 rounded-xl hover:bg-accent/50 cursor-pointer transition-all duration-200 border border-transparent hover:border-border/50 gap-3 group"
+            className={cn(
+              "flex items-center justify-between p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 gap-3 group/item border-2",
+              event.type === "income"
+                ? "hover:bg-primary/10 border-transparent hover:border-primary/50 hover:glow-cyan"
+                : "hover:bg-secondary/10 border-transparent hover:border-secondary/50 hover:glow-magenta",
+            )}
           >
             <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
               <div
                 className={cn(
-                  "w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110",
-                  event.type === "income" && "bg-green-500/15 text-green-600 dark:text-green-400",
-                  event.type === "expense" && "bg-red-500/15 text-red-600 dark:text-red-400",
+                  "w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all group-hover/item:scale-110 border-2",
+                  event.type === "income" && "bg-primary/20 text-primary border-primary",
+                  event.type === "expense" && "bg-secondary/20 text-secondary border-secondary",
                 )}
               >
                 {event.type === "income" ? (
@@ -69,8 +79,8 @@ export function TransactionsList({ events, onEventClick }: TransactionsListProps
             <div
               className={cn(
                 "font-bold text-base md:text-lg flex-shrink-0 tabular-nums",
-                event.type === "income" && "text-green-600 dark:text-green-400",
-                event.type === "expense" && "text-red-600 dark:text-red-400",
+                event.type === "income" && "text-primary",
+                event.type === "expense" && "text-secondary",
               )}
             >
               {event.type === "income" ? "+" : "-"}
