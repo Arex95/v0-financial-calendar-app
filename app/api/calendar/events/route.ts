@@ -1,12 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
 import { listEvents, createEvent, type CalendarEvent } from "@/lib/google-calendar"
 
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
 
   console.log("[v0] GET /api/calendar/events - Session:", session ? "Found" : "Not found")
+  console.log("[v0] Access token present:", !!session?.accessToken)
 
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -30,9 +30,10 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession()
 
   console.log("[v0] POST /api/calendar/events - Session:", session ? "Found" : "Not found")
+  console.log("[v0] Access token present:", !!session?.accessToken)
 
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
