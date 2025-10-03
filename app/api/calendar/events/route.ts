@@ -6,8 +6,6 @@ import { listEvents, createEvent, type CalendarEvent } from "@/lib/google-calend
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions)
 
-  console.log("[v0] GET /api/calendar/events - Session:", session ? "Found" : "Not found")
-
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
@@ -31,8 +29,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
-
-  console.log("[v0] POST /api/calendar/events - Session:", session ? "Found" : "Not found")
 
   if (!session?.accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
