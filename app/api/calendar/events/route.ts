@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const events = await listEvents(session.accessToken, timeMin, timeMax)
     return NextResponse.json({ events })
   } catch (error) {
-    console.error("[v0] Error fetching events:", error)
+    console.error("Error fetching events:", error)
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 })
   }
 }
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     const createdEvent = await createEvent(session.accessToken, event)
     return NextResponse.json({ event: createdEvent })
   } catch (error) {
-    console.error("[v0] Error creating event:", error)
+    console.error("Error creating event:", error)
     return NextResponse.json({ error: "Failed to create event" }, { status: 500 })
   }
 }
