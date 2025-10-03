@@ -23,7 +23,7 @@ This app integrates with Google Calendar to sync financial events. Financial eve
 \`\`\`
 Tipo: Gasto|Ingreso
 Monto: 500
-Moneda: MXN
+Moneda: MXNestions 
 Categoría: Alimentación
 Método de Pago: Tarjeta de Crédito
 Notas: [optional]
