@@ -53,7 +53,6 @@ export default function Home() {
       const data = await response.json()
       setEvents(data.events)
     } catch (error) {
-      console.error("[v0] Error fetching events:", error)
       toast({
         title: "Error",
         description: "No se pudieron cargar los eventos",
@@ -99,7 +98,6 @@ export default function Home() {
       await fetchEvents()
       setEditingEvent(undefined)
     } catch (error) {
-      console.error("[v0] Error saving event:", error)
       toast({
         title: "Error",
         description: "No se pudo guardar el evento",
@@ -123,7 +121,6 @@ export default function Home() {
 
       await fetchEvents()
     } catch (error) {
-      console.error("[v0] Error deleting event:", error)
       toast({
         title: "Error",
         description: "No se pudo eliminar el evento",

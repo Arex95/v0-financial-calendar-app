@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { updateEvent, deleteEvent, type CalendarEvent } from "@/lib/google-calendar"
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
@@ -15,7 +15,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const updatedEvent = await updateEvent(session.accessToken, params.id, event)
     return NextResponse.json({ event: updatedEvent })
   } catch (error) {
-    console.error("Error updating event:", error)
+    console.error("[v0] Error updating event:", error)
     return NextResponse.json({ error: "Failed to update event" }, { status: 500 })
   }
 }
@@ -31,7 +31,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     await deleteEvent(session.accessToken, params.id)
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("Error deleting event:", error)
+    console.error("[v0] Error deleting event:", error)
     return NextResponse.json({ error: "Failed to delete event" }, { status: 500 })
   }
 }
