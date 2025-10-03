@@ -1,4 +1,5 @@
 import { google } from "googleapis"
+import type { CalendarEvent } from "./types"
 
 export interface FinancialEventData {
   type: "income" | "expense"
@@ -9,40 +10,29 @@ export interface FinancialEventData {
   notes?: string
 }
 
-export interface CalendarEvent {
-  id?: string
-  title: string
-  date: string
-  type: "normal" | "income" | "expense"
-  financialData?: FinancialEventData
-}
-
-// Pattern for financial events: Title starts with $
-// Description contains structured data
 export function formatFinancialEvent(event: CalendarEvent): { summary: string; description: string } {
   if (event.type === "normal") {
     return {
       summary: event.title,
-      description: "",
+      description: event.description || "",
     }
   }
 
-  const { financialData } = event
-  if (!financialData) {
-    throw new Error("Financial data is required for financial events")
+  // Use flat structure
+  if (!event.amount) {
+    throw new Error("Amount is required for financial events")
   }
 
   // Title format: $[AMOUNT] - [TITLE]
-  const summary = `$${financialData.amount} - ${event.title}`
+  const summary = `$${event.amount} - ${event.title}`
 
   // Description format: Structured fields
   const description = [
-    `Tipo: ${financialData.type === "income" ? "Ingreso" : "Gasto"}`,
-    `Monto: ${financialData.amount}`,
-    `Moneda: ${financialData.currency}`,
-    `Categoría: ${financialData.category}`,
-    `Método de Pago: ${financialData.paymentMethod}`,
-    financialData.notes ? `Notas: ${financialData.notes}` : "",
+    `Tipo: ${event.type === "income" ? "Ingreso" : "Gasto"}`,
+    `Monto: ${event.amount}`,
+    `Moneda: MXN`,
+    `Categoría: ${event.category || "Sin categoría"}`,
+    `Método de Pago: ${event.paymentMethod || "Efectivo"}`,
   ]
     .filter(Boolean)
     .join("\n")
@@ -63,6 +53,7 @@ export function parseFinancialEvent(googleEvent: any): CalendarEvent {
       title: summary,
       date: googleEvent.start.date || googleEvent.start.dateTime?.split("T")[0],
       type: "normal",
+      description: description || undefined,
     }
   }
 
@@ -82,19 +73,15 @@ export function parseFinancialEvent(googleEvent: any): CalendarEvent {
 
   const type = fields["Tipo"] === "Ingreso" ? "income" : "expense"
 
+  // Return flat structure matching lib/types.ts
   return {
     id: googleEvent.id,
     title,
     date: googleEvent.start.date || googleEvent.start.dateTime?.split("T")[0],
     type,
-    financialData: {
-      type,
-      amount: Number.parseFloat(fields["Monto"]) || amount,
-      currency: fields["Moneda"] || "MXN",
-      category: fields["Categoría"] || "Sin categoría",
-      paymentMethod: fields["Método de Pago"] || "Efectivo",
-      notes: fields["Notas"],
-    },
+    amount: Number.parseFloat(fields["Monto"]) || amount,
+    category: fields["Categoría"] || "Sin categoría",
+    paymentMethod: fields["Método de Pago"] || "Efectivo",
   }
 }
 
