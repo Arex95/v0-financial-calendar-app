@@ -35,11 +35,37 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const event: CalendarEvent = await request.json()
+    const body = await request.json()
+    console.log("[v0] Received event data:", body)
+
+    // Transform flat structure to nested financialData structure
+    const event: CalendarEvent = {
+      title: body.title,
+      date: body.date,
+      type: body.type,
+    }
+
+    // If it's a financial event, nest the financial data
+    if (body.type === "income" || body.type === "expense") {
+      event.financialData = {
+        type: body.type,
+        amount: body.amount || 0,
+        currency: body.currency || "MXN",
+        category: body.category || "Sin categoría",
+        paymentMethod: body.paymentMethod || "Efectivo",
+        notes: body.notes,
+      }
+    }
+
+    console.log("[v0] Transformed event:", event)
     const createdEvent = await createEvent(session.accessToken, event)
     return NextResponse.json({ event: createdEvent })
   } catch (error) {
-    console.error("Error creating event:", error)
+    console.error("[v0] Error creating event:", error)
+    if (error instanceof Error) {
+      console.error("[v0] Error message:", error.message)
+      console.error("[v0] Error stack:", error.stack)
+    }
     return NextResponse.json({ error: "Failed to create event" }, { status: 500 })
   }
 }
