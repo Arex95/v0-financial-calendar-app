@@ -27,6 +27,8 @@ export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const [editingEvent, setEditingEvent] = useState<CalendarEvent | undefined>()
   const [isLoading, setIsLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("calendar")
+  const [statsView, setStatsView] = useState<"mensual" | "anual" | "global">("mensual")
 
   const { data: session } = useSession()
   const { toast } = useToast()
@@ -63,7 +65,8 @@ export default function Home() {
     }
   }
 
-  const stats = calculateFinancialStats(events)
+  const filteredEvents = getFilteredEvents(events, statsView)
+  const stats = calculateFinancialStats(filteredEvents)
 
   const handleSaveEvent = async (eventData: Omit<CalendarEvent, "id">) => {
     try {
@@ -151,89 +154,106 @@ export default function Home() {
     setIsEventDialogOpen(true)
   }
 
+  function getFilteredEvents(events: CalendarEvent[], statsView: "mensual" | "anual" | "global") {
+    const now = new Date()
+    if (statsView === "mensual") {
+      return events.filter(e => {
+        const d = new Date(e.date)
+        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
+      })
+    }
+    if (statsView === "anual") {
+      return events.filter(e => {
+        const d = new Date(e.date)
+        return d.getFullYear() === now.getFullYear()
+      })
+    }
+    return events // global
+  }
+
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background relative">
-        <header className="border-b-2 border-glow-cyan bg-card/50 backdrop-blur-md sticky top-0 z-10 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 pointer-events-none" />
-          <div className="container mx-auto px-4 py-4 md:py-6 relative">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/20 rounded-lg border border-primary glow-cyan">
-                  <Zap className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h1 className="text-2xl md:text-3xl font-bold text-balance text-primary text-glow-cyan tracking-wider uppercase">
-                    Calendario Financiero
-                  </h1>
-                  <p className="text-xs md:text-sm text-muted-foreground mt-1">
-                    <span className="text-secondary">●</span> Sincronizado con Google Calendar
-                  </p>
-                </div>
+      <div className="min-h-screen bg-background">
+        <header className="border-b border-border bg-gradient-to-r from-card via-card to-card/95 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
+          <div className="container mx-auto px-2 py-3 flex items-center justify-between gap-2">
+            {/* Logotipo redondo */}
+            <div className="flex items-center gap-2">
+              <div className="rounded-full bg-primary w-10 h-10 flex items-center justify-center shadow-md">
+                {/* Puedes reemplazar el texto por un SVG o imagen */}
+                <span className="text-white font-bold text-lg">FC</span>
               </div>
-              <div className="flex items-center gap-2 md:gap-3 w-full sm:w-auto">
-                <ThemeToggle />
-                <Button
-                  onClick={() => signOut({ callbackUrl: "/auth/signin" })}
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-muted-foreground/30 hover:border-destructive hover:text-destructive transition-all"
-                >
-                  <LogOut className="h-4 w-4 md:mr-2" />
-                  <span className="hidden md:inline">Cerrar sesión</span>
-                </Button>
-                <Button
-                  onClick={handleNewEvent}
-                  size="lg"
-                  className="bg-primary hover:bg-primary/80 text-primary-foreground border-2 border-primary glow-cyan transition-all flex-1 sm:flex-none font-semibold uppercase tracking-wide"
-                >
-                  <Plus className="h-4 w-4 md:h-5 md:w-5 mr-2" />
-                  <span className="hidden sm:inline">Nuevo evento</span>
-                  <span className="sm:hidden">Nuevo</span>
-                </Button>
-              </div>
+            </div>
+            {/* Tabs en el header, controlados por activeTab */}
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 mx-2 max-w-xs">
+              <TabsList className="grid grid-cols-2 h-10 p-1 bg-muted/50 rounded-full">
+                <TabsTrigger value="calendar" className="flex items-center gap-2 rounded-full data-[state=active]:shadow-md text-sm">
+                  <Calendar className="h-4 w-4" />
+                  <span className="hidden sm:inline max-[400px]:hidden">Calendario</span>
+                  <span className="sm:hidden max-[400px]:hidden">Cal</span>
+                </TabsTrigger>
+                <TabsTrigger value="dashboard" className="flex items-center gap-2 rounded-full data-[state=active]:shadow-md text-sm">
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden sm:inline max-[400px]:hidden">Dashboard</span>
+                  <span className="sm:hidden max-[400px]:hidden">Dash</span>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            {/* Botones de acción compactos */}
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <Button
+                onClick={() => signOut({ callbackUrl: "/auth/signin" })}
+                variant="outline"
+                size="icon"
+                className="rounded-full p-2"
+                title="Cerrar sesión"
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+              <Button
+                onClick={handleNewEvent}
+                size="icon"
+                className="rounded-full shadow-lg hover:shadow-xl transition-shadow"
+                title="Nuevo evento"
+              >
+                <Plus className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </header>
 
         <main className="container mx-auto px-4 py-6 md:py-10">
-          <Tabs defaultValue="calendar" className="space-y-6 md:space-y-8">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 h-12 md:h-14 p-1 bg-card border-2 border-primary/30 glow-cyan">
-              <TabsTrigger
-                value="calendar"
-                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:glow-cyan text-sm md:text-base font-semibold uppercase tracking-wide transition-all"
-              >
-                <Calendar className="h-4 w-4" />
-                <span className="hidden sm:inline">Calendario</span>
-                <span className="sm:hidden">Cal</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="dashboard"
-                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:glow-cyan text-sm md:text-base font-semibold uppercase tracking-wide transition-all"
-              >
-                <BarChart3 className="h-4 w-4" />
-                Dashboard
-              </TabsTrigger>
-            </TabsList>
-
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 md:space-y-8">
             <TabsContent value="calendar" className="space-y-6">
               <CalendarView events={events} onDateClick={handleDateClick} onEventClick={handleEventClick} />
             </TabsContent>
-
             <TabsContent value="dashboard" className="space-y-6 md:space-y-8">
+              {/* Switch de estadísticas solo visible en dashboard */}
+              <div className="flex justify-center mb-4">
+                <Tabs value={statsView} onValueChange={setStatsView} className="w-full max-w-xs">
+                  <TabsList className="grid grid-cols-3 h-9 p-1 bg-muted/50 rounded-full">
+                    <TabsTrigger value="mensual" className="rounded-full data-[state=active]:shadow text-xs">
+                      Mensuales
+                    </TabsTrigger>
+                    <TabsTrigger value="anual" className="rounded-full data-[state=active]:shadow text-xs">
+                      Anuales
+                    </TabsTrigger>
+                    <TabsTrigger value="global" className="rounded-full data-[state=active]:shadow text-xs">
+                      Globales
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
               <FinancialSummary stats={stats} />
-
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <MonthlyTrendChart stats={stats} />
-                <TransactionsList events={events} onEventClick={handleEventClick} />
+                <TransactionsList events={filteredEvents} onEventClick={handleEventClick} />
               </div>
-
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <CategoryBreakdown title="Ingresos por categoría" categories={stats.incomeByCategory} type="income" />
                 <CategoryBreakdown title="Gastos por categoría" categories={stats.expensesByCategory} type="expense" />
               </div>
-
-              <DailyStatisticsTable events={events} onEventClick={handleEventClick} />
+              <DailyStatisticsTable events={filteredEvents} onEventClick={handleEventClick} />
             </TabsContent>
           </Tabs>
         </main>

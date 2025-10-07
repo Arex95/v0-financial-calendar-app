@@ -58,8 +58,8 @@ const calculateMonthlyTrend = (events: CalendarEvent[]) => {
 }
 
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat("es-ES", {
+  return new Intl.NumberFormat("en-EN", {
     style: "currency",
-    currency: "EUR",
+    currency: "USD",
   }).format(amount)
 }
