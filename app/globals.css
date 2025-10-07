@@ -50,7 +50,7 @@
     --card-foreground: #f8fafc;
     --popover: #1e293b;
     --popover-foreground: #f8fafc;
-    --primary: #009ee3;
+    --primary: #009ee3;;
     --primary-foreground: #ffffff;
     --secondary: #1e293b;
     --secondary-foreground: #f8fafc;
@@ -165,11 +165,11 @@
   }
 
   .chart-grid {
-    @apply stroke-border stroke-[1px];
+    @apply stroke-[1px];
   }
 
   .chart-axis {
-    @apply text-xs text-muted-foreground;
+    @apply text-xs;
   }
 
   .chart-tooltip {

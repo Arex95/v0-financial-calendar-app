@@ -42,7 +42,7 @@ export default function SignInPage() {
             </svg>
             Continuar con Google
           </Button>
-          <p className="text-xs text-muted-foreground text-center mt-4">
+          <p className="text-xs text-(--muted-foreground) text-center mt-4">
             Al continuar, autorizas el acceso a tu Google Calendar para sincronizar eventos financieros
           </p>
         </CardContent>

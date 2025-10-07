@@ -88,7 +88,7 @@ export function CalendarView({ events, onDateClick, onEventClick }: CalendarView
             </div>
           ))}
           {dayEvents.length > 3 && (
-            <div className="text-[10px] md:text-xs text-muted-foreground px-1.5 md:px-2.5 font-medium">
+            <div className="text-[10px] md:text-xs text-[var(--muted-foreground)] px-1.5 md:px-2.5 font-medium">
               +{dayEvents.length - 3} más
             </div>
           )}

@@ -39,7 +39,7 @@ export function EventDetailsDialog({ open, onOpenChange, event, onEdit, onDelete
 
         <div className="space-y-4">
           <div>
-            <p className="text-sm text-muted-foreground mb-1">Fecha</p>
+            <p className="text-sm text-[var(--muted-foreground)] mb-1">Fecha</p>
             <p className="font-medium">
               {eventDate.toLocaleDateString("es-ES", {
                 weekday: "long",
@@ -51,7 +51,7 @@ export function EventDetailsDialog({ open, onOpenChange, event, onEdit, onDelete
           </div>
 
           <div>
-            <p className="text-sm text-muted-foreground mb-1">Tipo</p>
+            <p className="text-sm text-[var(--muted-foreground)] mb-1">Tipo</p>
             <p className="font-medium capitalize">
               {event.type === "income" && "Ingreso"}
               {event.type === "expense" && "Gasto"}
@@ -61,7 +61,7 @@ export function EventDetailsDialog({ open, onOpenChange, event, onEdit, onDelete
 
           {event.description && (
             <div>
-              <p className="text-sm text-muted-foreground mb-1">Descripción</p>
+              <p className="text-sm text-[var(--muted-foreground)] mb-1">Descripción</p>
               <p className="text-sm">{event.description}</p>
             </div>
           )}
@@ -70,7 +70,7 @@ export function EventDetailsDialog({ open, onOpenChange, event, onEdit, onDelete
             <>
               {event.amount && (
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Monto</p>
+                  <p className="text-sm text-[var(--muted-foreground)] mb-1">Monto</p>
                   <p
                     className={cn(
                       "text-2xl font-bold",
@@ -86,14 +86,14 @@ export function EventDetailsDialog({ open, onOpenChange, event, onEdit, onDelete
 
               {event.category && (
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Categoría</p>
+                  <p className="text-sm text-[var(--muted-foreground)] mb-1">Categoría</p>
                   <p className="font-medium">{event.category}</p>
                 </div>
               )}
 
               {event.paymentMethod && (
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Método de pago</p>
+                  <p className="text-sm text-[var(--muted-foreground)] mb-1">Método de pago</p>
                   <p className="font-medium">{event.paymentMethod}</p>
                 </div>
               )}

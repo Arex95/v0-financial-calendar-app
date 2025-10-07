@@ -19,7 +19,7 @@ export function MonthlyTrendChart({ stats, statsView = "mensual", selectedMonth,
         <h3 className="text-base md:text-lg font-semibold mb-4 text-primary">
           {statsView === "anual" ? "Tendencia anual" : "Tendencia mensual"}
         </h3>
-        <p className="text-muted-foreground text-center py-8 text-sm">
+        <p className="text-[var(--muted-foreground)] text-center py-8 text-sm">
           No hay datos suficientes para mostrar la tendencia
         </p>
       </Card>
