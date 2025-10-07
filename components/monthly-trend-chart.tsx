@@ -7,14 +7,17 @@ import { formatCurrency } from "@/lib/financial-utils"
 
 interface MonthlyTrendChartProps {
   stats: FinancialStats
+  statsView?: "mensual" | "anual"
+  selectedMonth?: number
+  selectedYear?: number
 }
 
-export function MonthlyTrendChart({ stats }: MonthlyTrendChartProps) {
+export function MonthlyTrendChart({ stats, statsView = "mensual", selectedMonth, selectedYear }: MonthlyTrendChartProps) {
   if (stats.monthlyTrend.length === 0) {
     return (
       <Card className="p-4 md:p-6 border-2 border-primary/30 border-glow-cyan shadow-lg bg-card/80 backdrop-blur-sm">
         <h3 className="text-base md:text-lg font-semibold mb-4 text-primary uppercase tracking-wide">
-          Tendencia mensual
+          {statsView === "anual" ? "Tendencia anual" : "Tendencia mensual"}
         </h3>
         <p className="text-muted-foreground text-center py-8 text-sm">
           No hay datos suficientes para mostrar la tendencia
@@ -23,14 +26,23 @@ export function MonthlyTrendChart({ stats }: MonthlyTrendChartProps) {
     )
   }
 
+  // Título y subtítulo dinámico
+  let title = statsView === "anual" ? "Tendencia anual" : "Tendencia mensual"
+  let subtitle = ""
+  if (statsView === "anual" && selectedYear !== undefined) {
+    subtitle = `Año ${selectedYear}`
+  } else if (statsView === "mensual" && selectedMonth !== undefined && selectedYear !== undefined) {
+    subtitle = `${new Date(selectedYear, selectedMonth).toLocaleString("es-ES", { month: "long", year: "numeric" })}`
+  }
+
   return (
     <Card className="p-4 md:p-6 border-2 border-primary/30 border-glow-cyan shadow-lg hover:shadow-2xl transition-all duration-300 bg-card/80 backdrop-blur-sm relative overflow-hidden group">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-50 pointer-events-none" />
       <div className="mb-6 relative z-10">
         <h3 className="text-base md:text-lg font-semibold mb-1 text-primary uppercase tracking-wide text-glow-cyan">
-          Tendencia mensual
+          {title}
         </h3>
-        <p className="text-xs md:text-sm text-muted-foreground">Últimos 6 meses de actividad financiera</p>
+        <p className="text-xs md:text-sm text-muted-foreground">{subtitle}</p>
       </div>
       <div className="relative z-10">
         <ResponsiveContainer width="100%" height={280} className="md:h-[320px]">
@@ -52,6 +64,13 @@ export function MonthlyTrendChart({ stats }: MonthlyTrendChartProps) {
               stroke="oklch(0.65 0.05 195)"
               tick={{ fill: "oklch(0.65 0.05 195)" }}
               axisLine={{ stroke: "oklch(0.35 0.15 195)" }}
+              label={{
+                value: statsView === "anual" ? "Mes" : "Día",
+                position: "insideBottomRight",
+                offset: -5,
+                fill: "oklch(0.65 0.05 195)",
+                fontSize: 12,
+              }}
             />
             <YAxis
               className="text-xs"

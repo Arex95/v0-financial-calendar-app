@@ -1,6 +1,11 @@
 import type { CalendarEvent, FinancialStats } from "./types"
 
-export const calculateFinancialStats = (events: CalendarEvent[]): FinancialStats => {
+export const calculateFinancialStats = (
+  events: CalendarEvent[],
+  statsView: "mensual" | "anual",
+  selectedMonth: number,
+  selectedYear: number
+): FinancialStats => {
   const incomeEvents = events.filter((e) => e.type === "income")
   const expenseEvents = events.filter((e) => e.type === "expense")
 
@@ -19,8 +24,8 @@ export const calculateFinancialStats = (events: CalendarEvent[]): FinancialStats
     expensesByCategory[cat] = (expensesByCategory[cat] || 0) + (e.amount || 0)
   })
 
-  // Calculate monthly trend for last 6 months
-  const monthlyTrend = calculateMonthlyTrend(events)
+  // Nueva tendencia
+  const monthlyTrend = calculateTrend(events, statsView, selectedMonth, selectedYear)
 
   return {
     totalIncome,
@@ -32,29 +37,52 @@ export const calculateFinancialStats = (events: CalendarEvent[]): FinancialStats
   }
 }
 
-const calculateMonthlyTrend = (events: CalendarEvent[]) => {
-  const months: Array<{ month: string; income: number; expenses: number }> = []
-  const now = new Date()
-
-  for (let i = 5; i >= 0; i--) {
-    const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
-    const monthEvents = events.filter((e) => {
-      const eventDate = new Date(e.date)
-      return eventDate.getFullYear() === date.getFullYear() && eventDate.getMonth() === date.getMonth()
-    })
-
-    const income = monthEvents.filter((e) => e.type === "income").reduce((sum, e) => sum + (e.amount || 0), 0)
-
-    const expenses = monthEvents.filter((e) => e.type === "expense").reduce((sum, e) => sum + (e.amount || 0), 0)
-
-    months.push({
-      month: date.toLocaleDateString("es-ES", { month: "short", year: "numeric" }),
-      income,
-      expenses,
-    })
+const calculateTrend = (
+  events: CalendarEvent[],
+  statsView: "mensual" | "anual",
+  selectedMonth: number,
+  selectedYear: number
+) => {
+  if (statsView === "mensual") {
+    // Por días del mes seleccionado
+    const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate()
+    const trend = []
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayEvents = events.filter((e) => {
+        const d = new Date(e.date)
+        return (
+          d.getFullYear() === selectedYear &&
+          d.getMonth() === selectedMonth &&
+          d.getDate() === day
+        )
+      })
+      const income = dayEvents.filter((e) => e.type === "income").reduce((sum, e) => sum + (e.amount || 0), 0)
+      const expenses = dayEvents.filter((e) => e.type === "expense").reduce((sum, e) => sum + (e.amount || 0), 0)
+      trend.push({
+        month: day.toString(),
+        income,
+        expenses,
+      })
+    }
+    return trend
+  } else {
+    // Por meses del año seleccionado
+    const trend = []
+    for (let m = 0; m < 12; m++) {
+      const monthEvents = events.filter((e) => {
+        const d = new Date(e.date)
+        return d.getFullYear() === selectedYear && d.getMonth() === m
+      })
+      const income = monthEvents.filter((e) => e.type === "income").reduce((sum, e) => sum + (e.amount || 0), 0)
+      const expenses = monthEvents.filter((e) => e.type === "expense").reduce((sum, e) => sum + (e.amount || 0), 0)
+      trend.push({
+        month: new Date(selectedYear, m).toLocaleString("es-ES", { month: "short" }),
+        income,
+        expenses,
+      })
+    }
+    return trend
   }
-
-  return months
 }
 
 export const formatCurrency = (amount: number): string => {

@@ -18,6 +18,8 @@ import { DailyStatisticsTable } from "@/components/daily-statistics-table"
 import { AuthGuard } from "@/components/auth-guard"
 import { signOut, useSession } from "next-auth/react"
 import { useToast } from "@/hooks/use-toast"
+import { Slider } from "@/components/ui/slider" // Asegúrate de tener este componente
+import { HorizontalSelector } from "@/components/ui/horizontal-selector"
 
 export default function Home() {
   const [events, setEvents] = useState<CalendarEvent[]>([])
@@ -28,7 +30,10 @@ export default function Home() {
   const [editingEvent, setEditingEvent] = useState<CalendarEvent | undefined>()
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("calendar")
-  const [statsView, setStatsView] = useState<"mensual" | "anual" | "global">("mensual")
+  const [statsView, setStatsView] = useState<"mensual" | "anual">("mensual")
+  const now = new Date()
+  const [selectedMonth, setSelectedMonth] = useState(now.getMonth())
+  const [selectedYear, setSelectedYear] = useState(now.getFullYear())
 
   const { data: session } = useSession()
   const { toast } = useToast()
@@ -66,7 +71,7 @@ export default function Home() {
   }
 
   const filteredEvents = getFilteredEvents(events, statsView)
-  const stats = calculateFinancialStats(filteredEvents)
+  const stats = calculateFinancialStats(filteredEvents, statsView, selectedMonth, selectedYear)
 
   const handleSaveEvent = async (eventData: Omit<CalendarEvent, "id">) => {
     try {
@@ -154,22 +159,29 @@ export default function Home() {
     setIsEventDialogOpen(true)
   }
 
-  function getFilteredEvents(events: CalendarEvent[], statsView: "mensual" | "anual" | "global") {
-    const now = new Date()
+  function getFilteredEvents(
+    events: CalendarEvent[],
+    statsView: "mensual" | "anual"
+  ) {
     if (statsView === "mensual") {
       return events.filter(e => {
         const d = new Date(e.date)
-        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
+        return d.getFullYear() === selectedYear && d.getMonth() === selectedMonth
       })
     }
     if (statsView === "anual") {
       return events.filter(e => {
         const d = new Date(e.date)
-        return d.getFullYear() === now.getFullYear()
+        return d.getFullYear() === selectedYear
       })
     }
-    return events // global
+    return events // fallback, shouldn't happen
   }
+
+  const monthNames = Array.from({ length: 12 }, (_, i) =>
+    new Date(selectedYear, i).toLocaleString("es-ES", { month: "long" })
+  )
+  const yearRange = Array.from({ length: 6 }, (_, i) => (now.getFullYear() - 5 + i).toString())
 
   return (
     <AuthGuard>
@@ -229,24 +241,36 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="dashboard" className="space-y-6 md:space-y-8">
               {/* Switch de estadísticas solo visible en dashboard */}
-              <div className="flex justify-center mb-4">
+              <div className="flex flex-col items-center gap-4 mb-4">
                 <Tabs value={statsView} onValueChange={setStatsView} className="w-full max-w-xs">
-                  <TabsList className="grid grid-cols-3 h-9 p-1 bg-muted/50 rounded-full">
+                  <TabsList className="grid grid-cols-2 h-9 p-1 bg-muted/50 rounded-full">
                     <TabsTrigger value="mensual" className="rounded-full data-[state=active]:shadow text-xs">
                       Mensuales
                     </TabsTrigger>
                     <TabsTrigger value="anual" className="rounded-full data-[state=active]:shadow text-xs">
                       Anuales
                     </TabsTrigger>
-                    <TabsTrigger value="global" className="rounded-full data-[state=active]:shadow text-xs">
-                      Globales
-                    </TabsTrigger>
                   </TabsList>
                 </Tabs>
+                {/* Slider para seleccionar mes o año */}
+                {statsView === "mensual" && (
+                  <HorizontalSelector
+                    items={monthNames}
+                    selectedIndex={selectedMonth}
+                    onSelect={setSelectedMonth}
+                  />
+                )}
+                {statsView === "anual" && (
+                  <HorizontalSelector
+                    items={yearRange}
+                    selectedIndex={yearRange.indexOf(selectedYear.toString())}
+                    onSelect={idx => setSelectedYear(Number(yearRange[idx]))}
+                  />
+                )}
               </div>
               <FinancialSummary stats={stats} />
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <MonthlyTrendChart stats={stats} />
+                <MonthlyTrendChart stats={stats} statsView={statsView} selectedMonth={selectedMonth} selectedYear={selectedYear} />
                 <TransactionsList events={filteredEvents} onEventClick={handleEventClick} />
               </div>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">

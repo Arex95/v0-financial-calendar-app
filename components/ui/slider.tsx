@@ -1,0 +1,23 @@
+"use client"
+
+import * as React from "react"
+
+interface SliderProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  value: [number]
+  onValueChange: (value: [number]) => void
+}
+
+export function Slider({ value, onValueChange, min = 0, max = 100, step = 1, className, ...props }: SliderProps) {
+  return (
+    <input
+      type="range"
+      min={min}
+      max={max}
+      step={step}
+      value={value[0]}
+      onChange={e => onValueChange([Number(e.target.value)])}
+      className={className}
+      {...props}
+    />
+  )
+}
