@@ -11,12 +11,11 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  // Desactivado temporalmente para desarrollo de la interfaz
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     router.push("/auth/signin")
-  //   }
-  // }, [status, router])
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin")
+    }
+  }, [status, router])
 
   if (status === "loading") {
     return (
@@ -26,9 +25,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     )
   }
 
-  // if (!session) {
-  //   return null
-  // }
+  if (!session) {
+    return null
+  }
 
   return <>{children}</>
 }
