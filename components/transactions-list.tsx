@@ -19,7 +19,7 @@ export function TransactionsList({ events, onEventClick }: TransactionsListProps
 
   if (financialEvents.length === 0) {
     return (
-      <Card className="p-4 md:p-6 border-2 border-primary/30 border-glow-cyan shadow-lg bg-card/80 backdrop-blur-sm">
+      <Card className="p-4 md:p-6 border bg-card rounded-lg">
         <h3 className="text-base md:text-lg font-semibold mb-4 text-primary uppercase tracking-wide">
           Transacciones recientes
         </h3>
@@ -29,24 +29,23 @@ export function TransactionsList({ events, onEventClick }: TransactionsListProps
   }
 
   return (
-    <Card className="p-5 md:p-7 border-2 border-primary/30 border-glow-cyan shadow-lg hover:shadow-2xl transition-all duration-300 bg-card/80 backdrop-blur-sm relative overflow-hidden group">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50 pointer-events-none" />
-      <div className="mb-6 relative z-10">
-        <h3 className="text-base md:text-lg font-semibold mb-1 text-primary uppercase tracking-wide text-glow-cyan">
+    <Card className="p-5 md:p-7 border bg-card rounded-lg">
+      <div className="mb-6">
+        <h3 className="text-base md:text-lg font-semibold mb-1 text-primary uppercase tracking-wide">
           Transacciones recientes
         </h3>
         <p className="text-xs md:text-sm text-muted-foreground">Últimas {financialEvents.length} transacciones</p>
       </div>
-      <div className="space-y-2 relative z-10">
+      <div className="space-y-2">
         {financialEvents.map((event) => (
           <div
             key={event.id}
             onClick={() => onEventClick(event)}
             className={cn(
-              "flex items-center justify-between p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 gap-3 group/item border-2",
+              "flex items-center justify-between p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 gap-3 group/item border",
               event.type === "income"
-                ? "hover:bg-primary/10 border-transparent hover:border-primary/50 hover:glow-cyan"
-                : "hover:bg-secondary/10 border-transparent hover:border-secondary/50 hover:glow-magenta",
+                ? "hover:bg-primary/10 border-transparent"
+                : "hover:bg-secondary/10 border-transparent",
             )}
           >
             <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">

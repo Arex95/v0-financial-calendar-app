@@ -17,7 +17,7 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
 
   if (entries.length === 0) {
     return (
-      <Card className="p-4 md:p-6 border-2 border-primary/30 border-glow-cyan shadow-lg bg-card/80 backdrop-blur-sm">
+      <Card className="p-4 md:p-6 border bg-card rounded-lg">
         <h3 className="text-base md:text-lg font-semibold mb-4 text-primary uppercase tracking-wide">{title}</h3>
         <p className="text-muted-foreground text-center py-8 text-sm">No hay datos disponibles</p>
       </Card>
@@ -25,25 +25,12 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
   }
 
   return (
-    <Card
-      className={cn(
-        "p-5 md:p-7 border-2 shadow-lg hover:shadow-2xl transition-all duration-300 bg-card/80 backdrop-blur-sm relative overflow-hidden group",
-        type === "income" ? "border-primary/50 border-glow-cyan" : "border-secondary/50 border-glow-magenta",
-      )}
-    >
-      <div
-        className={cn(
-          "absolute inset-0 opacity-50 group-hover:opacity-70 transition-opacity",
-          type === "income"
-            ? "bg-gradient-to-br from-primary/10 to-transparent"
-            : "bg-gradient-to-br from-secondary/10 to-transparent",
-        )}
-      />
-      <div className="mb-6 relative z-10">
+    <Card className="p-5 md:p-7 border bg-card rounded-lg">
+      <div className="mb-6">
         <h3
           className={cn(
             "text-base md:text-lg font-semibold mb-1 uppercase tracking-wide",
-            type === "income" ? "text-primary text-glow-cyan" : "text-secondary text-glow-magenta",
+            type === "income" ? "text-primary" : "text-secondary",
           )}
         >
           {title}
@@ -55,11 +42,11 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
           </span>
         </p>
       </div>
-      <div className="space-y-5 relative z-10">
+      <div className="space-y-5">
         {entries.map(([category, amount]) => {
           const percentage = (amount / total) * 100
           return (
-            <div key={category} className="group/item">
+            <div key={category}>
               <div className="flex items-center justify-between mb-2.5 gap-2">
                 <span className="text-xs md:text-sm font-medium truncate text-foreground/90">{category}</span>
                 <div className="flex items-baseline gap-2 flex-shrink-0">
@@ -80,8 +67,8 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
                 indicatorClassName={cn(
                   "transition-all duration-500 rounded-full",
                   type === "income"
-                    ? "bg-primary shadow-[0_0_10px_rgba(0,255,255,0.5)]"
-                    : "bg-secondary shadow-[0_0_10px_rgba(255,0,255,0.5)]",
+                    ? "bg-primary"
+                    : "bg-secondary",
                 )}
               />
             </div>
