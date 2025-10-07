@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { formatCurrency } from "@/lib/financial-utils"
-import { cn } from "@/lib/utils"
 
 interface CategoryBreakdownProps {
   title: string
@@ -17,59 +16,53 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
 
   if (entries.length === 0) {
     return (
-      <Card className="p-4 md:p-6 border bg-card rounded-lg">
-        <h3 className="text-base md:text-lg font-semibold mb-4 text-primary uppercase tracking-wide">{title}</h3>
-        <p className="text-muted-foreground text-center py-8 text-sm">No hay datos disponibles</p>
+      <Card className="card-base">
+        <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--primary)", marginBottom: "1rem" }}>{title}</h3>
+        <p style={{ color: "var(--muted-foreground)", textAlign: "center", padding: "2rem 0", fontSize: "0.95rem" }}>
+          No hay datos disponibles
+        </p>
       </Card>
     )
   }
 
   return (
-    <Card className="p-5 md:p-7 border bg-card rounded-lg">
-      <div className="mb-6">
-        <h3
-          className={cn(
-            "text-base md:text-lg font-semibold mb-1 uppercase tracking-wide",
-            type === "income" ? "text-primary" : "text-secondary",
-          )}
-        >
-          {title}
-        </h3>
-        <p className="text-xs md:text-sm text-muted-foreground">
-          Total:{" "}
-          <span className={cn("font-semibold", type === "income" ? "text-primary" : "text-secondary")}>
+    <Card className="card-base">
+      <div style={{ marginBottom: "1.5rem" }}>
+        <h3 style={{
+          fontSize: "1.1rem",
+          fontWeight: 600,
+          color: type === "income" ? "var(--success)" : "var(--destructive)",
+          marginBottom: "0.25rem"
+        }}>{title}</h3>
+        <p style={{ fontSize: "0.95rem", color: "var(--muted-foreground)" }}>
+          Total: <span style={{ fontWeight: 600, color: type === "income" ? "var(--success)" : "var(--destructive)" }}>
             {formatCurrency(total)}
           </span>
         </p>
       </div>
-      <div className="space-y-5">
+      <div>
         {entries.map(([category, amount]) => {
           const percentage = (amount / total) * 100
           return (
-            <div key={category}>
-              <div className="flex items-center justify-between mb-2.5 gap-2">
-                <span className="text-xs md:text-sm font-medium truncate text-foreground/90">{category}</span>
-                <div className="flex items-baseline gap-2 flex-shrink-0">
-                  <span
-                    className={cn(
-                      "text-sm md:text-base font-bold",
-                      type === "income" ? "text-primary" : "text-secondary",
-                    )}
-                  >
-                    {formatCurrency(amount)}
-                  </span>
-                  <span className="text-xs text-muted-foreground font-medium">{percentage.toFixed(0)}%</span>
-                </div>
+            <div key={category} style={{ marginBottom: "1.25rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                <span style={{ fontSize: "0.95rem", fontWeight: 500 }}>{category}</span>
+                <span style={{
+                  fontWeight: 700,
+                  color: type === "income" ? "var(--success)" : "var(--destructive)"
+                }}>
+                  {formatCurrency(amount)}
+                </span>
               </div>
               <Progress
                 value={percentage}
-                className="h-2.5 bg-muted/30 border border-border/30"
-                indicatorClassName={cn(
-                  "transition-all duration-500 rounded-full",
-                  type === "income"
-                    ? "bg-primary"
-                    : "bg-secondary",
-                )}
+                style={{
+                  height: "0.5rem",
+                  background: "var(--muted)",
+                  borderRadius: "var(--radius)",
+                  "--progress-color": type === "income" ? "var(--success)" : "var(--destructive)"
+                } as React.CSSProperties}
+                indicatorClassName=""
               />
             </div>
           )

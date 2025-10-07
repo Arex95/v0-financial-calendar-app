@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card"
 import { ArrowUpRight, ArrowDownRight } from "lucide-react"
 import type { CalendarEvent } from "@/lib/types"
 import { formatCurrency } from "@/lib/financial-utils"
-import { cn } from "@/lib/utils"
 
 interface TransactionsListProps {
   events: CalendarEvent[]
@@ -17,77 +16,70 @@ export function TransactionsList({ events, onEventClick }: TransactionsListProps
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 10)
 
-  if (financialEvents.length === 0) {
-    return (
-      <Card className="p-4 md:p-6 border bg-card rounded-lg">
-        <h3 className="text-base md:text-lg font-semibold mb-4 text-primary uppercase tracking-wide">
-          Transacciones recientes
-        </h3>
-        <p className="text-muted-foreground text-center py-8 text-sm">No hay transacciones registradas</p>
-      </Card>
-    )
-  }
-
   return (
-    <Card className="p-5 md:p-7 border bg-card rounded-lg">
-      <div className="mb-6">
-        <h3 className="text-base md:text-lg font-semibold mb-1 text-primary uppercase tracking-wide">
-          Transacciones recientes
-        </h3>
-        <p className="text-xs md:text-sm text-muted-foreground">Últimas {financialEvents.length} transacciones</p>
+    <Card className="card-base">
+      <div style={{ marginBottom: "1.5rem" }}>
+        <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--primary)" }}>Transacciones recientes</h3>
       </div>
-      <div className="space-y-2">
-        {financialEvents.map((event) => (
-          <div
-            key={event.id}
-            onClick={() => onEventClick(event)}
-            className={cn(
-              "flex items-center justify-between p-3 md:p-4 rounded-lg cursor-pointer transition-all duration-200 gap-3 group/item border",
-              event.type === "income"
-                ? "hover:bg-primary/10 border-transparent"
-                : "hover:bg-secondary/10 border-transparent",
-            )}
-          >
-            <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-              <div
-                className={cn(
-                  "w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all group-hover/item:scale-110 border-2",
-                  event.type === "income" && "bg-primary/20 text-primary border-primary",
-                  event.type === "expense" && "bg-secondary/20 text-secondary border-secondary",
-                )}
-              >
-                {event.type === "income" ? (
-                  <ArrowUpRight className="h-5 w-5" />
-                ) : (
-                  <ArrowDownRight className="h-5 w-5" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold truncate text-sm md:text-base">{event.title}</p>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
-                  <span>{new Date(event.date).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}</span>
-                  {event.category && (
-                    <>
-                      <span className="hidden sm:inline">•</span>
-                      <span className="hidden sm:inline truncate">{event.category}</span>
-                    </>
-                  )}
+      {financialEvents.length > 0 ? (
+        <div>
+          {financialEvents.map((event) => (
+            <div
+              key={event.id}
+              onClick={() => onEventClick(event)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0.75rem",
+                borderRadius: "var(--radius)",
+                cursor: "pointer",
+                marginBottom: "0.5rem",
+                background: "transparent",
+                transition: "background 0.2s"
+              }}
+              onMouseOver={e => (e.currentTarget.style.background = "var(--muted)")}
+              onMouseOut={e => (e.currentTarget.style.background = "transparent")}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <div style={{
+                  height: "2.5rem",
+                  width: "2.5rem",
+                  borderRadius: "var(--radius)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: event.type === "income"
+                    ? "color-mix(in srgb, var(--success) 10%, transparent)"
+                    : "color-mix(in srgb, var(--destructive) 10%, transparent)",
+                  color: event.type === "income" ? "var(--success)" : "var(--destructive)"
+                }}>
+                  {event.type === "income"
+                    ? <ArrowUpRight style={{ width: "1.25rem", height: "1.25rem" }} />
+                    : <ArrowDownRight style={{ width: "1.25rem", height: "1.25rem" }} />}
+                </div>
+                <div>
+                  <p style={{ fontWeight: 600 }}>{event.title}</p>
+                  <p style={{ fontSize: "0.95rem", color: "var(--muted-foreground)" }}>
+                    {new Date(event.date).toLocaleDateString("es-ES", { day: "2-digit", month: "short" })}
+                  </p>
                 </div>
               </div>
+              <p style={{
+                fontWeight: 700,
+                color: event.type === "income" ? "var(--success)" : "var(--destructive)"
+              }}>
+                {event.type === "income" ? "+" : "-"}
+                {formatCurrency(event.amount || 0)}
+              </p>
             </div>
-            <div
-              className={cn(
-                "font-bold text-base md:text-lg flex-shrink-0 tabular-nums",
-                event.type === "income" && "text-primary",
-                event.type === "expense" && "text-secondary",
-              )}
-            >
-              {event.type === "income" ? "+" : "-"}
-              {formatCurrency(event.amount || 0)}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p style={{ color: "var(--muted-foreground)", textAlign: "center", padding: "2rem 0", fontSize: "0.95rem" }}>
+          No hay transacciones recientes.
+        </p>
+      )}
     </Card>
   )
 }

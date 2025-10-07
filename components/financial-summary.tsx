@@ -11,53 +11,151 @@ interface FinancialSummaryProps {
 
 export function FinancialSummary({ stats }: FinancialSummaryProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <Card className="p-6">
-        <div className="flex items-center justify-between">
+    <div
+      style={{
+        display: "grid",
+        gap: "1rem",
+        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+      }}
+    >
+      <Card className="card-base">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p
+              style={{
+                fontSize: "0.95rem",
+                color: "var(--muted-foreground)",
+                fontWeight: 500,
+              }}
+            >
               Ingresos totales
             </p>
-            <p className="text-2xl font-bold text-success mt-1">
+            <p
+              style={{
+                fontSize: "2rem",
+                fontWeight: 700,
+                color: "var(--success)",
+                marginTop: "0.25rem",
+              }}
+            >
               {formatCurrency(stats.totalIncome)}
             </p>
           </div>
-          <div className="h-12 w-12 rounded-lg bg-success/10 flex items-center justify-center">
-            <TrendingUp className="h-6 w-6 text-success" />
+          <div
+            style={{
+              height: "3rem",
+              width: "3rem",
+              borderRadius: "var(--radius)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background:
+                "color-mix(in srgb, var(--success) 10%, transparent)",
+            }}
+          >
+            <TrendingUp
+              style={{ color: "var(--success)", width: "1.5rem", height: "1.5rem" }}
+            />
           </div>
         </div>
       </Card>
-
-      <Card className="p-6">
-        <div className="flex items-center justify-between">
+      <Card className="card-base">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p
+              style={{
+                fontSize: "0.95rem",
+                color: "var(--muted-foreground)",
+                fontWeight: 500,
+              }}
+            >
               Gastos totales
             </p>
-            <p className="text-2xl font-bold text-destructive mt-1">
+            <p
+              style={{
+                fontSize: "2rem",
+                fontWeight: 700,
+                color: "var(--destructive)",
+                marginTop: "0.25rem",
+              }}
+            >
               {formatCurrency(stats.totalExpenses)}
             </p>
           </div>
-          <div className="h-12 w-12 rounded-lg bg-destructive/10 flex items-center justify-center">
-            <TrendingDown className="h-6 w-6 text-destructive" />
+          <div
+            style={{
+              height: "3rem",
+              width: "3rem",
+              borderRadius: "var(--radius)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background:
+                "color-mix(in srgb, var(--destructive) 10%, transparent)",
+            }}
+          >
+            <TrendingDown
+              style={{ color: "var(--destructive)", width: "1.5rem", height: "1.5rem" }}
+            />
           </div>
         </div>
       </Card>
-
-      <Card className="p-6 sm:col-span-2 lg:col-span-1">
-        <div className="flex items-center justify-between">
+      <Card className="card-base">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <div>
-            <p className="text-sm font-medium text-muted-foreground">Balance</p>
             <p
-              className={`text-2xl font-bold mt-1 ${
-                stats.balance >= 0 ? "text-success" : "text-destructive"
-              }`}
+              style={{
+                fontSize: "0.95rem",
+                color: "var(--muted-foreground)",
+                fontWeight: 500,
+              }}
+            >
+              Balance
+            </p>
+            <p
+              style={{
+                fontSize: "2rem",
+                fontWeight: 700,
+                color:
+                  stats.balance >= 0 ? "var(--success)" : "var(--destructive)",
+                marginTop: "0.25rem",
+              }}
             >
               {formatCurrency(stats.balance)}
             </p>
           </div>
-          <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Wallet className="h-6 w-6 text-primary" />
+          <div
+            style={{
+              height: "3rem",
+              width: "3rem",
+              borderRadius: "var(--radius)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "color-mix(in srgb, var(--primary) 10%, transparent)",
+            }}
+          >
+            <Wallet
+              style={{ color: "var(--primary)", width: "1.5rem", height: "1.5rem" }}
+            />
           </div>
         </div>
       </Card>
