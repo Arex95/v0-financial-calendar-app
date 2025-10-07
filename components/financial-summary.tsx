@@ -19,7 +19,7 @@ export function FinancialSummary({ stats }: FinancialSummaryProps) {
             <p className="text-xs md:text-sm text-primary mb-2 font-semibold uppercase tracking-wider">
               Ingresos totales
             </p>
-            <p className="text-2xl md:text-3xl font-bold text-primary truncate tracking-tight">
+            <p className="text-2xl md:text-3xl font-bold text-success truncate tracking-tight">
               {formatCurrency(stats.totalIncome)}
             </p>
           </div>
@@ -35,7 +35,7 @@ export function FinancialSummary({ stats }: FinancialSummaryProps) {
             <p className="text-xs md:text-sm text-secondary mb-2 font-semibold uppercase tracking-wider">
               Gastos totales
             </p>
-            <p className="text-2xl md:text-3xl font-bold text-secondary truncate tracking-tight">
+            <p className="text-2xl md:text-3xl font-bold text-destructive truncate tracking-tight">
               {formatCurrency(stats.totalExpenses)}
             </p>
           </div>
@@ -52,7 +52,7 @@ export function FinancialSummary({ stats }: FinancialSummaryProps) {
             <p
               className={cn(
                 "text-2xl md:text-3xl font-bold truncate tracking-tight",
-                stats.balance >= 0 ? "text-primary" : "text-secondary",
+                stats.balance >= 0 ? "text-success" : "text-destructive",
               )}
             >
               {formatCurrency(stats.balance)}
@@ -63,6 +63,17 @@ export function FinancialSummary({ stats }: FinancialSummaryProps) {
           </div>
         </div>
       </Card>
+
+      <div
+        className={cn(
+          "font-bold text-base md:text-lg flex-shrink-0 tabular-nums",
+          event.type === "income" && "text-success",
+          event.type === "expense" && "text-destructive",
+        )}
+      >
+        {event.type === "income" ? "+" : "-"}
+        {formatCurrency(event.amount || 0)}
+      </div>
     </div>
   )
 }
