@@ -5,52 +5,52 @@
 
 /* Cyberpunk color tokens - Neon aesthetic with dark backgrounds */
 :root {
-  --background: #f8fafc;
+  --background: #ffffff;
   --foreground: #18181b;
-  --card: #fff;
+  --card: #ffffff;
   --card-foreground: #18181b;
-  --popover: #fff;
+  --popover: #ffffff;
   --popover-foreground: #18181b;
-  --primary: #2563eb;
-  --primary-foreground: #fff;
+  --primary: #0055a4;
+  --primary-foreground: #ffffff;
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
-  --accent: #1d4ed8;
-  --accent-foreground: #fff;
+  --accent: #009ee3;
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --destructive-foreground: #fff;
+  --destructive-foreground: #ffffff;
   --success: #22c55e;
-  --success-foreground: #fff;
+  --success-foreground: #ffffff;
   --border: #e4e4e7;
   --input: #e4e4e7;
-  --ring: #2563eb;
+  --ring: #0055a4;
   --radius: 0.5rem;
 }
 
 .dark {
   --background: #18181b;
   --foreground: #f8fafc;
-  --card: #23272f;
+  --card: #27272a;
   --card-foreground: #f8fafc;
-  --popover: #23272f;
+  --popover: #27272a;
   --popover-foreground: #f8fafc;
-  --primary: #2563eb;
-  --primary-foreground: #fff;
-  --secondary: #23272f;
+  --primary: #009ee3;
+  --primary-foreground: #ffffff;
+  --secondary: #27272a;
   --secondary-foreground: #f8fafc;
-  --muted: #23272f;
+  --muted: #27272a;
   --muted-foreground: #a1a1aa;
-  --accent: #1d4ed8;
-  --accent-foreground: #fff;
+  --accent: #0055a4;
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --destructive-foreground: #fff;
+  --destructive-foreground: #ffffff;
   --success: #22c55e;
-  --success-foreground: #fff;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #2563eb;
+  --success-foreground: #ffffff;
+  --border: #3f3f46;
+  --input: #3f3f46;
+  --ring: #009ee3;
 }
 
 @theme inline {
@@ -86,13 +86,10 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
-    background-image: linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
   }
 }
 
