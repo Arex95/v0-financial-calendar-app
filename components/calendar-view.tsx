@@ -56,9 +56,8 @@ export function CalendarView({ events, onDateClick, onEventClick }: CalendarView
     days.push(
       <div
         key={day}
-        className={dayClasses.join(' '})
-        onClick={() => onDateClick(new Date(year, month, day))}
-      >
+        className={dayClasses.join(' ')}
+        onClick={() => onDateClick(new Date(year, month, day))}>
         <div className="flex items-center justify-between mb-2">
           <span className={isToday(day) ? 'font-bold' : ''}>{day}</span>
         </div>
