@@ -243,8 +243,8 @@ export default function Home() {
             <TabsContent value="dashboard" className="space-y-6 md:space-y-8">
               {/* Switch de estadísticas solo visible en dashboard */}
               <div className="flex flex-col items-center gap-4 mb-4">
-                <Tabs value={statsView} onValueChange={setStatsView} className="w-full max-w-xs">
-                  <TabsList className="grid grid-cols-2 h-9 p-1 bg-muted/50 rounded-full">
+                <Tabs value={statsView} onValueChange={setStatsView} className="w-full">
+                  <TabsList className="flex flex-row h-9 w-full p-1 bg-muted/50 rounded-full">
                     <TabsTrigger value="mensual" className="rounded-full data-[state=active]:shadow text-xs">
                       Mensuales
                     </TabsTrigger>
