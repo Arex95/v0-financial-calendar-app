@@ -179,6 +179,218 @@
     padding: 0.75rem;
     @apply shadow-lg; 
   }
+
+  .btn {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-default {
+    @apply bg-primary text-primary-foreground shadow hover:bg-primary/90;
+  }
+
+  .btn-destructive {
+    @apply bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90;
+  }
+
+  .btn-outline {
+    @apply border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .btn-link {
+    @apply text-primary underline-offset-4 hover:underline;
+  }
+
+  .btn-size-default {
+    @apply h-9 px-4 py-2;
+  }
+
+  .btn-size-sm {
+    @apply h-8 rounded-md px-3 text-xs;
+  }
+
+  .btn-size-lg {
+    @apply h-10 rounded-md px-8;
+  }
+
+  .btn-size-icon {
+    @apply h-9 w-9;
+  }
+
+  .card {
+    @apply bg-card text-card-foreground rounded-lg border shadow-sm;
+  }
+
+  .card-header {
+    @apply flex flex-col space-y-1.5 p-6;
+  }
+
+  .card-title {
+    @apply font-semibold leading-none tracking-tight;
+  }
+
+  .card-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .card-content {
+    @apply p-6 pt-0;
+  }
+
+  .card-footer {
+    @apply flex items-center p-6 pt-0;
+  }
+
+  .dialog-overlay {
+    @apply fixed inset-0 z-50 bg-black/50;
+  }
+
+  .dialog-content {
+    @apply fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg rounded-lg;
+  }
+
+  .dialog-header {
+    @apply flex flex-col space-y-1.5 text-center sm:text-left;
+  }
+
+  .dialog-footer {
+    @apply flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2;
+  }
+
+  .dialog-title {
+    @apply text-lg font-semibold leading-none tracking-tight;
+  }
+
+  .dialog-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .dialog-close {
+    @apply absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none;
+  }
+
+  .input {
+    @apply flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+
+  .select-trigger {
+    @apply flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .select-content {
+    @apply relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md;
+  }
+
+  .select-label {
+    @apply px-2 py-1.5 text-sm font-semibold;
+  }
+
+  .select-item {
+    @apply relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50;
+  }
+
+  .select-separator {
+    @apply -mx-1 my-1 h-px bg-muted;
+  }
+
+  .textarea {
+    @apply flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .tabs-list {
+    @apply inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground;
+  }
+
+  .tabs-trigger {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow;
+  }
+
+  .tabs-content {
+    @apply mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  .calendar-header {
+    @apply flex items-center justify-between mb-4;
+  }
+
+  .calendar-grid {
+    @apply grid grid-cols-7 border-t border-l border-border;
+  }
+
+  .calendar-day {
+    @apply border-b border-r border-border p-2 h-24;
+  }
+
+  .calendar-day-today {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  .calendar-day-event {
+    @apply bg-primary text-primary-foreground rounded-md p-1 text-xs;
+  }
+
+  .calendar-weekday {
+    @apply text-center font-semibold;
+  }
+
+  .form {
+    @apply space-y-4;
+  }
+
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-actions {
+    @apply flex justify-end space-x-2;
+  }
+
+  .summary-card {
+    @apply flex items-center justify-between p-4;
+  }
+
+  .summary-card-title {
+    @apply text-sm font-medium text-muted-foreground;
+  }
+
+  .summary-card-amount {
+    @apply text-2xl font-bold;
+  }
+
+  .summary-card-icon {
+    @apply flex items-center justify-center h-12 w-12 rounded-lg;
+  }
+
+  .loading-spinner {
+    @apply h-8 w-8 animate-spin text-primary;
+  }
+
+  .category-breakdown-title {
+    @apply text-lg font-semibold;
+  }
+
+  .category-breakdown-item {
+    @apply mb-4;
+  }
+
+  .transaction-list-item {
+    @apply flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-muted;
+  }
+
+  .upcoming-event-item {
+    @apply flex items-center justify-between p-2 rounded-lg hover:bg-muted;
+  }
 }
 
 /* Utilidades específicas */

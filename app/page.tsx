@@ -20,6 +20,7 @@ import { signOut, useSession } from "next-auth/react"
 import { useToast } from "@/hooks/use-toast"
 import { Slider } from "@/components/ui/slider" // Asegúrate de tener este componente
 import { HorizontalSelector } from "@/components/ui/horizontal-selector"
+import { UpcomingEvents } from "@/components/upcoming-events"
 
 export default function Home() {
   const [events, setEvents] = useState<CalendarEvent[]>([])
@@ -49,7 +50,7 @@ export default function Home() {
       setIsLoading(true)
       const now = new Date()
       const startOfYear = new Date(now.getFullYear(), 0, 1)
-      const endOfYear = new Date(now.getFullYear(), 11, 31)
+      const endOfYear = new Date(now.getFullYear() + 5, 11, 31) // Fetch events up to 5 years in the future
 
       const response = await fetch(
         `/api/calendar/events?timeMin=${startOfYear.toISOString()}&timeMax=${endOfYear.toISOString()}`,
@@ -271,13 +272,16 @@ export default function Home() {
               <FinancialSummary stats={stats} />
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <MonthlyTrendChart stats={stats} statsView={statsView} selectedMonth={selectedMonth} selectedYear={selectedYear} />
-                <TransactionsList events={filteredEvents} onEventClick={handleEventClick} />
+                <UpcomingEvents events={events} />
               </div>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <TransactionsList events={filteredEvents} onEventClick={handleEventClick} />
                 <CategoryBreakdown title="Ingresos por categoría" categories={stats.incomeByCategory} type="income" />
-                <CategoryBreakdown title="Gastos por categoría" categories={stats.expensesByCategory} type="expense" />
               </div>
-              <DailyStatisticsTable events={filteredEvents} onEventClick={handleEventClick} />
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <CategoryBreakdown title="Gastos por categoría" categories={stats.expensesByCategory} type="expense" />
+                <DailyStatisticsTable events={filteredEvents} onEventClick={handleEventClick} />
+              </div>
             </TabsContent>
           </Tabs>
         </main>

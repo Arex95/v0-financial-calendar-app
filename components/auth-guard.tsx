@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import { Loader2 } from "lucide-react"
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { Loader2 } from 'lucide-react'
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
@@ -18,10 +18,10 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   //   }
   // }, [status, router])
 
-  if (status === "loading") {
+  if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+      <div className="loading-spinner-container">
+        <Loader2 className="loading-spinner" />
       </div>
     )
   }

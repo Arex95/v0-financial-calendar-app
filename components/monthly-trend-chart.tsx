@@ -1,40 +1,35 @@
-"use client"
+'use client'
 
-import { Card } from "@/components/ui/card"
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
-import type { FinancialStats } from "@/lib/types"
-import { formatCurrency } from "@/lib/financial-utils"
+import { Card } from '@/components/ui/card'
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import type { FinancialStats } from '@/lib/types'
 
 interface MonthlyTrendChartProps {
   stats: FinancialStats
-  statsView?: "mensual" | "anual"
+  statsView?: 'monthly' | 'annual'
   selectedMonth?: number
   selectedYear?: number
 }
 
-export function MonthlyTrendChart({ stats, statsView = "mensual", selectedMonth, selectedYear }: MonthlyTrendChartProps) {
+export function MonthlyTrendChart({ stats, statsView = 'monthly', selectedMonth, selectedYear }: MonthlyTrendChartProps) {
   if (stats.monthlyTrend.length === 0) {
     return (
-      <Card className="card-base">
-        <h3 className="text-base md:text-lg font-semibold mb-4 text-primary">
-          {statsView === "anual" ? "Tendencia anual" : "Tendencia mensual"}
-        </h3>
-        <p className="text-[var(--muted-foreground)] text-center py-8 text-sm">
-          No hay datos suficientes para mostrar la tendencia
-        </p>
+      <Card>
+        <h3 className="text-lg font-semibold mb-4">Monthly Trend</h3>
+        <p className="text-muted-foreground text-center py-8">Not enough data to show trend</p>
       </Card>
     )
   }
 
   return (
-    <Card className="card-base">
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--primary)" }}>
-          {statsView === "anual" ? "Tendencia anual" : "Tendencia mensual"}
+    <Card>
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold">
+          {statsView === 'annual' ? 'Annual Trend' : 'Monthly Trend'}
         </h3>
-        <p style={{ fontSize: "0.95rem", color: "var(--muted-foreground)" }}>
-          {statsView === "anual" ? `Año ${selectedYear}` : 
-           `${new Date(selectedYear, selectedMonth).toLocaleString("es-ES", { month: "long", year: "numeric" })}`}
+        <p className="text-sm text-muted-foreground">
+          {statsView === 'annual' ? `Year ${selectedYear}` : 
+           `${new Date(selectedYear, selectedMonth).toLocaleString('en-US', { month: 'long', year: 'numeric' })}`}
         </p>
       </div>
       <div className="chart-container">
@@ -47,18 +42,16 @@ export function MonthlyTrendChart({ stats, statsView = "mensual", selectedMonth,
             <Area
               type="monotone"
               dataKey="income"
-              name="Ingresos"
-              stroke="var(--success)"
-              fill="var(--success)"
-              fillOpacity={0.1}
+              name="Income"
+              stroke="var(--chart-line-income)"
+              fill="var(--chart-area-income)"
             />
             <Area
               type="monotone"
               dataKey="expenses"
-              name="Gastos"
-              stroke="var(--destructive)"
-              fill="var(--destructive)"
-              fillOpacity={0.1}
+              name="Expenses"
+              stroke="var(--chart-line-expense)"
+              fill="var(--chart-area-expense)"
             />
           </AreaChart>
         </ResponsiveContainer>

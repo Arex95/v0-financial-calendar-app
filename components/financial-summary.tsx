@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { TrendingUp, TrendingDown, Wallet } from "lucide-react"
-import { Card } from "@/components/ui/card"
-import type { FinancialStats } from "@/lib/types"
-import { formatCurrency } from "@/lib/financial-utils"
+import { TrendingUp, TrendingDown, Wallet } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import type { FinancialStats } from '@/lib/types'
+import { formatCurrency } from '@/lib/financial-utils'
 
 interface FinancialSummaryProps {
   stats: FinancialStats
@@ -11,151 +11,43 @@ interface FinancialSummaryProps {
 
 export function FinancialSummary({ stats }: FinancialSummaryProps) {
   return (
-    <div
-      style={{
-        display: "grid",
-        gap: "1rem",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-      }}
-    >
-      <Card className="card-base">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Card>
+        <div className="summary-card">
           <div>
-            <p
-              style={{
-                fontSize: "0.95rem",
-                color: "var(--muted-foreground)",
-                fontWeight: 500,
-              }}
-            >
-              Ingresos totales
-            </p>
-            <p
-              style={{
-                fontSize: "2rem",
-                fontWeight: 700,
-                color: "var(--success)",
-                marginTop: "0.25rem",
-              }}
-            >
+            <p className="summary-card-title">Total Income</p>
+            <p className="summary-card-amount text-green-500">
               {formatCurrency(stats.totalIncome)}
             </p>
           </div>
-          <div
-            style={{
-              height: "3rem",
-              width: "3rem",
-              borderRadius: "var(--radius)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background:
-                "color-mix(in srgb, var(--success) 10%, transparent)",
-            }}
-          >
-            <TrendingUp
-              style={{ color: "var(--success)", width: "1.5rem", height: "1.5rem" }}
-            />
+          <div className="summary-card-icon bg-green-100">
+            <TrendingUp className="h-6 w-6 text-green-500" />
           </div>
         </div>
       </Card>
-      <Card className="card-base">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+      <Card>
+        <div className="summary-card">
           <div>
-            <p
-              style={{
-                fontSize: "0.95rem",
-                color: "var(--muted-foreground)",
-                fontWeight: 500,
-              }}
-            >
-              Gastos totales
-            </p>
-            <p
-              style={{
-                fontSize: "2rem",
-                fontWeight: 700,
-                color: "var(--destructive)",
-                marginTop: "0.25rem",
-              }}
-            >
+            <p className="summary-card-title">Total Expenses</p>
+            <p className="summary-card-amount text-red-500">
               {formatCurrency(stats.totalExpenses)}
             </p>
           </div>
-          <div
-            style={{
-              height: "3rem",
-              width: "3rem",
-              borderRadius: "var(--radius)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background:
-                "color-mix(in srgb, var(--destructive) 10%, transparent)",
-            }}
-          >
-            <TrendingDown
-              style={{ color: "var(--destructive)", width: "1.5rem", height: "1.5rem" }}
-            />
+          <div className="summary-card-icon bg-red-100">
+            <TrendingDown className="h-6 w-6 text-red-500" />
           </div>
         </div>
       </Card>
-      <Card className="card-base">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+      <Card>
+        <div className="summary-card">
           <div>
-            <p
-              style={{
-                fontSize: "0.95rem",
-                color: "var(--muted-foreground)",
-                fontWeight: 500,
-              }}
-            >
-              Balance
-            </p>
-            <p
-              style={{
-                fontSize: "2rem",
-                fontWeight: 700,
-                color:
-                  stats.balance >= 0 ? "var(--success)" : "var(--destructive)",
-                marginTop: "0.25rem",
-              }}
-            >
+            <p className="summary-card-title">Balance</p>
+            <p className={`summary-card-amount ${stats.balance >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               {formatCurrency(stats.balance)}
             </p>
           </div>
-          <div
-            style={{
-              height: "3rem",
-              width: "3rem",
-              borderRadius: "var(--radius)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "color-mix(in srgb, var(--primary) 10%, transparent)",
-            }}
-          >
-            <Wallet
-              style={{ color: "var(--primary)", width: "1.5rem", height: "1.5rem" }}
-            />
+          <div className="summary-card-icon bg-blue-100">
+            <Wallet className="h-6 w-6 text-blue-500" />
           </div>
         </div>
       </Card>
