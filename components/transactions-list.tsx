@@ -1,9 +1,7 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
-import type { CalendarEvent } from '@/lib/types'
-import { formatCurrency } from '@/lib/financial-utils'
+import { CategoryIcon } from './category-icon';
 
 interface TransactionsListProps {
   events: CalendarEvent[]
@@ -31,9 +29,7 @@ export function TransactionsList({ events, onEventClick }: TransactionsListProps
             >
               <div className="flex items-center gap-4">
                 <div className={`summary-card-icon bg-${event.type === 'income' ? 'green' : 'red'}-100`}>
-                  {event.type === 'income'
-                    ? <ArrowUpRight className={`h-5 w-5 text-green-500`} />
-                    : <ArrowDownRight className={`h-5 w-5 text-red-500`} />}
+                  <CategoryIcon category={event.category} className={`h-5 w-5 text-${event.type === 'income' ? 'green' : 'red'}-500`} />
                 </div>
                 <div>
                   <p className="font-semibold">{event.title}</p>

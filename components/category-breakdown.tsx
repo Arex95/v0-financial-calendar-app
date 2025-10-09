@@ -4,6 +4,8 @@ import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { formatCurrency } from '@/lib/financial-utils'
 
+import { CategoryIcon } from './category-icon';
+
 interface CategoryBreakdownProps {
   title: string
   categories: Record<string, number>
@@ -39,7 +41,10 @@ export function CategoryBreakdown({ title, categories, type }: CategoryBreakdown
           return (
             <div key={category} className="category-breakdown-item">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">{category}</span>
+                <div className="flex items-center gap-2">
+                  <CategoryIcon category={category} className="w-5 h-5" />
+                  <span className="text-sm font-medium text-left">{category}</span>
+                </div>
                 <span className={`font-bold text-${type === 'income' ? 'green' : 'red'}-500`}>
                   {formatCurrency(amount)}
                 </span>

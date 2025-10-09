@@ -21,6 +21,8 @@ import { useToast } from "@/hooks/use-toast"
 import { Slider } from "@/components/ui/slider" // Asegúrate de tener este componente
 import { HorizontalSelector } from "@/components/ui/horizontal-selector"
 import { UpcomingEvents } from "@/components/upcoming-events"
+import { CreditCardCard, AddCreditCardCard } from "@/components/credit-card-card"
+
 
 export default function Home() {
   const [events, setEvents] = useState<CalendarEvent[]>([])
@@ -281,6 +283,10 @@ export default function Home() {
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <CategoryBreakdown title="Gastos por categoría" categories={stats.expensesByCategory} type="expense" />
                 <DailyStatisticsTable events={filteredEvents} onEventClick={handleEventClick} />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <CreditCardCard cardName="My Bank" cardNumber="**** 1234" paidAmount={500} totalAmount={2000} />
+                <AddCreditCardCard />
               </div>
             </TabsContent>
           </Tabs>
