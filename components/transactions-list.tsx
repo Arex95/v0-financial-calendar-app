@@ -1,7 +1,9 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
-import { CategoryIcon } from './category-icon';
+import { CategoryIcon } from './category-icon'
+import { formatCurrency } from '@/lib/financial-utils'
+import type { CalendarEvent } from '@/lib/types'
 
 interface TransactionsListProps {
   events: CalendarEvent[]
