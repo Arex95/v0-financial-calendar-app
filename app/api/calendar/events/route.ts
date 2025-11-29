@@ -1,46 +1,37 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
-import { listEvents, createEvent } from "@/lib/google-calendar"
-import type { CalendarEvent } from "@/lib/types"
+import { google } from "googleapis"
 
-export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions)
+const oauth2Client = new google.auth.OAuth2(
+  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/auth/callback`,
+)
 
-  if (!session?.accessToken) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
-  const searchParams = request.nextUrl.searchParams
-  const timeMin = searchParams.get("timeMin")
-  const timeMax = searchParams.get("timeMax")
-
-  if (!timeMin || !timeMax) {
-    return NextResponse.json({ error: "timeMin and timeMax are required" }, { status: 400 })
-  }
-
+export async function GET(request: Request) {
   try {
-    const events = await listEvents(session.accessToken, timeMin, timeMax)
-    return NextResponse.json({ events })
+    const authHeader = request.headers.get("authorization")
+    if (!authHeader?.startsWith("Bearer ")) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const accessToken = authHeader.substring(7)
+    oauth2Client.setCredentials({ access_token: accessToken })
+
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client })
+
+    const now = new Date()
+    const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1)
+
+    const response = await calendar.events.list({
+      calendarId: "primary",
+      timeMin: threeMonthsAgo.toISOString(),
+      maxResults: 250,
+      singleEvents: true,
+      orderBy: "startTime",
+    })
+
+    return Response.json(response.data.items || [])
   } catch (error) {
-    console.error("Error fetching events:", error)
-    return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 })
-  }
-}
-
-export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions)
-
-  if (!session?.accessToken) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
-  try {
-    const event: CalendarEvent = await request.json()
-    const createdEvent = await createEvent(session.accessToken, event)
-    return NextResponse.json({ event: createdEvent })
-  } catch (error) {
-    console.error("Error creating event:", error)
-    return NextResponse.json({ error: "Failed to create event" }, { status: 500 })
+    console.error("Calendar API error:", error)
+    return Response.json({ error: "Failed to fetch calendar" }, { status: 500 })
   }
 }
