@@ -1,92 +1,19 @@
 import { google } from "googleapis"
-import type { CalendarEvent } from "./types"
 
-export interface FinancialEventData {
-  type: "income" | "expense"
+interface ParsedExpense {
+  title: string
   amount: number
-  currency: string
+  house: string
   category: string
-  paymentMethod: string
-  notes?: string
+  date: string
 }
 
-export function formatFinancialEvent(event: CalendarEvent): { summary: string; description: string } {
-  if (event.type === "normal") {
-    return {
-      summary: event.title,
-      description: event.description || "",
-    }
-  }
-
-  // Use flat structure
-  if (!event.amount) {
-    throw new Error("Amount is required for financial events")
-  }
-
-  // Title format: $[AMOUNT] - [TITLE]
-  const summary = `$${event.amount} - ${event.title}`
-
-  // Description format: Structured fields
-  const description = [
-    `Tipo: ${event.type === "income" ? "Ingreso" : "Gasto"}`,
-    `Monto: ${event.amount}`,
-    `Moneda: MXN`,
-    `Categoría: ${event.category || "Sin categoría"}`,
-    `Método de Pago: ${event.paymentMethod || "Efectivo"}`,
-  ]
-    .filter(Boolean)
-    .join("\n")
-
-  return { summary, description }
-}
-
-export function parseFinancialEvent(googleEvent: any): CalendarEvent {
-  const summary = googleEvent.summary || ""
-  const description = googleEvent.description || ""
-
-  // Check if it's a financial event (starts with $)
-  const isFinancial = summary.startsWith("$")
-
-  if (!isFinancial) {
-    return {
-      id: googleEvent.id,
-      title: summary,
-      date: googleEvent.start.date || googleEvent.start.dateTime?.split("T")[0],
-      type: "normal",
-      description: description || undefined,
-    }
-  }
-
-  // Parse financial event
-  const titleMatch = summary.match(/^\$(\d+(?:\.\d+)?)\s*-\s*(.+)$/)
-  const amount = titleMatch ? Number.parseFloat(titleMatch[1]) : 0
-  const title = titleMatch ? titleMatch[2] : summary
-
-  // Parse description fields
-  const fields: Record<string, string> = {}
-  description.split("\n").forEach((line) => {
-    const [key, ...valueParts] = line.split(":")
-    if (key && valueParts.length > 0) {
-      fields[key.trim()] = valueParts.join(":").trim()
-    }
-  })
-
-  const type = fields["Tipo"] === "Ingreso" ? "income" : "expense"
-
-  // Return flat structure matching lib/types.ts
-  return {
-    id: googleEvent.id,
-    title,
-    date: googleEvent.start.date || googleEvent.start.dateTime?.split("T")[0],
-    type,
-    amount: Number.parseFloat(fields["Monto"]) || amount,
-    category: fields["Categoría"] || "Sin categoría",
-    paymentMethod: fields["Método de Pago"] || "Efectivo",
-  }
-}
-
-export async function getCalendarClient(accessToken: string) {
-  const oauth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET)
+export async function getGoogleCalendarClient(accessToken: string) {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.NEXT_PUBLIC_REDIRECT_URI,
+  )
 
   oauth2Client.setCredentials({
     access_token: accessToken,
@@ -95,68 +22,85 @@ export async function getCalendarClient(accessToken: string) {
   return google.calendar({ version: "v3", auth: oauth2Client })
 }
 
-export async function listEvents(accessToken: string, timeMin: string, timeMax: string) {
-  const calendar = await getCalendarClient(accessToken)
+export async function getCalendarEvents(accessToken: string, timeMin?: string) {
+  try {
+    const calendar = await getGoogleCalendarClient(accessToken)
 
-  const response = await calendar.events.list({
-    calendarId: "primary",
-    timeMin,
-    timeMax,
-    singleEvents: true,
-    orderBy: "startTime",
-  })
+    const response = await calendar.events.list({
+      calendarId: "primary",
+      timeMin: timeMin || new Date().toISOString(),
+      maxResults: 100,
+      singleEvents: true,
+      orderBy: "startTime",
+    })
 
-  return (response.data.items || []).map(parseFinancialEvent)
+    return response.data.items || []
+  } catch (error) {
+    console.error("Error fetching calendar events:", error)
+    throw error
+  }
 }
 
-export async function createEvent(accessToken: string, event: CalendarEvent) {
-  const calendar = await getCalendarClient(accessToken)
-  const { summary, description } = formatFinancialEvent(event)
+export function parseExpenseFromEvent(event: any): ParsedExpense | null {
+  // Check if event title starts with $
+  if (!event.summary || !event.summary.startsWith("$")) {
+    return null
+  }
 
-  const response = await calendar.events.insert({
-    calendarId: "primary",
-    requestBody: {
-      summary,
-      description,
-      start: {
-        date: event.date,
-      },
-      end: {
-        date: event.date,
-      },
-    },
-  })
+  try {
+    // Parse title format: $amount houseName category
+    // Example: "$50 House A Utilities"
+    const titleParts = event.summary.substring(1).trim().split(" ")
 
-  return parseFinancialEvent(response.data)
+    if (titleParts.length < 2) {
+      return null
+    }
+
+    const amount = Number.parseFloat(titleParts[0])
+    if (isNaN(amount)) {
+      return null
+    }
+
+    // Extract house name (usually second part or from description)
+    let house = "General"
+    let category = "Other"
+
+    if (titleParts.length >= 2) {
+      house = titleParts[1]
+    }
+
+    if (titleParts.length >= 3) {
+      category = titleParts.slice(2).join(" ")
+    }
+
+    // Try to extract more info from description
+    if (event.description) {
+      const descLines = event.description.split("\n")
+      for (const line of descLines) {
+        if (line.toLowerCase().startsWith("house:")) {
+          house = line.substring(6).trim()
+        }
+        if (line.toLowerCase().startsWith("category:")) {
+          category = line.substring(9).trim()
+        }
+      }
+    }
+
+    return {
+      title: event.summary,
+      amount,
+      house,
+      category,
+      date: event.start.dateTime || event.start.date,
+    }
+  } catch (error) {
+    console.error("Error parsing event:", error)
+    return null
+  }
 }
 
-export async function updateEvent(accessToken: string, eventId: string, event: CalendarEvent) {
-  const calendar = await getCalendarClient(accessToken)
-  const { summary, description } = formatFinancialEvent(event)
-
-  const response = await calendar.events.update({
-    calendarId: "primary",
-    eventId,
-    requestBody: {
-      summary,
-      description,
-      start: {
-        date: event.date,
-      },
-      end: {
-        date: event.date,
-      },
-    },
-  })
-
-  return parseFinancialEvent(response.data)
-}
-
-export async function deleteEvent(accessToken: string, eventId: string) {
-  const calendar = await getCalendarClient(accessToken)
-
-  await calendar.events.delete({
-    calendarId: "primary",
-    eventId,
-  })
+export function parseExpenseFromEvents(events: any[]): ParsedExpense[] {
+  return events
+    .map((event) => parseExpenseFromEvent(event))
+    .filter((expense): expense is ParsedExpense => expense !== null)
 }
