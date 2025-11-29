@@ -15,7 +15,7 @@ interface AddEventModalProps {
   onAdd: (event: any) => void
   entities?: Entity[]
   accounts?: Account[]
-  defaultType?: "entity" | "personal"
+  defaultType?: "entity" | "personal" // Kept for backwards compatibility but not used
 }
 
 export default function AddEventModal({
@@ -23,9 +23,7 @@ export default function AddEventModal({
   onAdd,
   entities = [],
   accounts = [],
-  defaultType = "entity",
 }: AddEventModalProps) {
-  const [type, setType] = useState<"entity" | "personal">(defaultType)
   const [eventType, setEventType] = useState<"income" | "expense">("expense")
   const [amount, setAmount] = useState("")
   const [description, setDescription] = useState("")
@@ -44,14 +42,14 @@ export default function AddEventModal({
       return INCOME_CATEGORIES.map(name => ({ id: name, name, color: "#22c55e" })) // Green for income
     }
 
-    if (type === "entity" && selectedEntity) {
+    if (selectedEntity) {
       return getCategoriesForEntityType(selectedEntity.type)
     }
 
-    // Default personal categories fallback
-    const personalCats = ["Food & Dining", "Transportation", "Shopping", "Entertainment", "Healthcare", "Other"]
-    return personalCats.map(name => ({ id: name, name, color: "#64748b" }))
-  }, [eventType, type, selectedEntity])
+    // Fallback to generic categories
+    const genericCats = ["General", "Other"]
+    return genericCats.map(name => ({ id: name, name, color: "#64748b" }))
+  }, [eventType, selectedEntity])
 
   useEffect(() => {
     if (availableCategories.length > 0 && !category) {
@@ -70,18 +68,40 @@ export default function AddEventModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!selectedEntityId) {
+      alert("Por favor selecciona una entidad")
+      return
+    }
+
     onAdd({
       amount: Number.parseFloat(amount),
       description,
       category,
-      type,
+      type: "entity", // All events are now entity events
       eventType,
-      entityId: type === "entity" ? selectedEntityId : undefined,
+      entityId: selectedEntityId,
       accountId: selectedAccountId || undefined,
       currency: "USD",
       date: new Date().toISOString(),
     })
     onClose()
+  }
+
+  if (entities.length === 0) {
+    return (
+      <Dialog open={true} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Añadir Evento</DialogTitle>
+          </DialogHeader>
+          <div className="py-6 text-center text-muted-foreground">
+            <p className="mb-4">Primero debes crear al menos una entidad (Casa, Persona, Negocio, etc.) antes de añadir eventos.</p>
+            <Button onClick={onClose}>Entendido</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
   }
 
   return (
@@ -91,50 +111,36 @@ export default function AddEventModal({
           <DialogTitle>Añadir Evento</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Tipo de Evento</Label>
-              <Select value={eventType} onValueChange={(v: "income" | "expense") => {
-                setEventType(v)
-                setCategory("")
-              }}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="income">Ingreso</SelectItem>
-                  <SelectItem value="expense">Gasto</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Asociar a</Label>
-              <Select value={type} onValueChange={(v: "entity" | "personal") => setType(v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="entity">Entidad</SelectItem>
-                  <SelectItem value="personal">Personal</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <Label>Tipo de Evento</Label>
+            <Select value={eventType} onValueChange={(v: "income" | "expense") => {
+              setEventType(v)
+              setCategory("")
+            }}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="income">Ingreso</SelectItem>
+                <SelectItem value="expense">Gasto</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          {type === "entity" && (
-            <div className="space-y-2">
-              <Label>Entidad</Label>
-              <Select value={selectedEntityId} onValueChange={(v) => {
-                setSelectedEntityId(v)
-                setCategory("")
-              }}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {entities.map((entity) => (
-                    <SelectItem key={entity.id} value={entity.id}>
-                      {entity.name} ({entity.type})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
+          <div className="space-y-2">
+            <Label>Entidad *</Label>
+            <Select value={selectedEntityId} onValueChange={(v) => {
+              setSelectedEntityId(v)
+              setCategory("")
+            }}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {entities.map((entity) => (
+                  <SelectItem key={entity.id} value={entity.id}>
+                    {entity.type === "House" ? "🏠" : entity.type === "Car" ? "🚗" : entity.type === "Person" ? "👤" : entity.type === "Business" ? "💼" : "📁"} {entity.name} ({entity.type})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           <div className="space-y-2">
             <Label>Cantidad</Label>
@@ -151,7 +157,7 @@ export default function AddEventModal({
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label>Categoría</Label>
-              {type === "entity" && eventType === "expense" && !showCustomCategory && (
+              {eventType === "expense" && !showCustomCategory && (
                 <Button
                   type="button"
                   variant="ghost"

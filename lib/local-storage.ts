@@ -635,7 +635,8 @@ export function generateTestData(): void {
       amount: 500,
       description: "Pago mensualidad Visa",
       eventType: "expense",
-      type: "personal",
+      type: "entity",
+      entityId: person.id,
       currency: "USD",
       date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 25).toISOString(),
     })
@@ -646,31 +647,79 @@ export function generateTestData(): void {
       amount: 300,
       description: "Pago mensualidad Mastercard",
       eventType: "expense",
-      type: "personal",
+      type: "entity",
+      entityId: person.id,
       currency: "USD",
       date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 27).toISOString(),
     })
     
-    // Income
+    // ===== INCOME EVENTS =====
+    
+    // Person Income - Salary (every month)
     addEvent({
+      entityId: person.id,
       category: "Salary",
       amount: 5000,
       description: "Salario mensual",
       eventType: "income",
-      type: "personal",
+      type: "entity",
       currency: "USD",
       date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 1).toISOString(),
     })
     
-    if (Math.random() > 0.6) {
+    // Person Income - Freelance (random)
+    if (Math.random() > 0.5) {
       addEvent({
+        entityId: person.id,
         category: "Freelance",
-        amount: 500 + Math.random() * 1000,
+        amount: 500 + Math.random() * 1500,
         description: "Proyecto freelance",
         eventType: "income",
-        type: "personal",
+        type: "entity",
         currency: "USD",
         date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 15).toISOString(),
+      })
+    }
+    
+    // Person Income - Bonus (occasional)
+    if (monthOffset % 3 === 0) {
+      addEvent({
+        entityId: person.id,
+        category: "Bonus",
+        amount: 1000 + Math.random() * 2000,
+        description: "Bono trimestral",
+        eventType: "income",
+        type: "entity",
+        currency: "USD",
+        date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 28).toISOString(),
+      })
+    }
+    
+    // House Income - Rental Income (if renting out a room or property)
+    if (Math.random() > 0.3) {
+      addEvent({
+        entityId: house.id,
+        category: "Rental Income",
+        amount: 800 + Math.random() * 400,
+        description: "Ingreso por renta de cuarto",
+        eventType: "income",
+        type: "entity",
+        currency: "USD",
+        date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 1).toISOString(),
+      })
+    }
+    
+    // Car Income - Ride sharing or delivery (occasional)
+    if (Math.random() > 0.7) {
+      addEvent({
+        entityId: car.id,
+        category: "Ride Sharing",
+        amount: 200 + Math.random() * 300,
+        description: "Ingresos Uber/Delivery",
+        eventType: "income",
+        type: "entity",
+        currency: "USD",
+        date: new Date(eventDate.getFullYear(), eventDate.getMonth(), 20).toISOString(),
       })
     }
   }

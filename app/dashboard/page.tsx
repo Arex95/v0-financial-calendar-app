@@ -17,7 +17,6 @@ import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog"
 export default function DashboardPage() {
   const [data, setData] = useState(getFinancialData())
   const [showAddExpense, setShowAddExpense] = useState(false)
-  const [expenseType, setExpenseType] = useState<"entity" | "personal">("entity")
   const [showAddCard, setShowAddCard] = useState(false)
 
   // Delete confirmation state
@@ -71,10 +70,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex gap-2 w-full sm:w-auto flex-wrap">
             <Button
-              onClick={() => {
-                setExpenseType("entity")
-                setShowAddExpense(true)
-              }}
+              onClick={() => setShowAddExpense(true)}
               className="flex-1 sm:flex-none"
               disabled={entities.length === 0}
             >
@@ -113,6 +109,8 @@ export default function DashboardPage() {
                   key={entity.id}
                   entity={entity}
                   onDelete={() => promptDelete("entity", entity.id)}
+                  globalTotalIncome={data.totalIncome}
+                  globalTotalExpenses={data.totalExpenses}
                 />
               ))}
             </div>
@@ -211,7 +209,6 @@ export default function DashboardPage() {
             onAdd={handleAddEvent}
             entities={entities}
             accounts={data.accounts}
-            defaultType={expenseType}
           />
         )}
 
