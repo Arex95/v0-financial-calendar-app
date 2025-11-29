@@ -88,10 +88,19 @@ const getRandomColor = (index?: number) => {
   return DEFAULT_COLORS[Math.floor(Math.random() * DEFAULT_COLORS.length)]
 }
 
+// Counter to ensure unique IDs even when called multiple times in same millisecond
+let idCounter = 0
+
+// Generate unique ID with timestamp + counter + random number to avoid collisions
+const generateUniqueId = (prefix: string): string => {
+  idCounter++
+  return `${prefix}-${Date.now()}-${idCounter}-${Math.random().toString(36).substring(2, 9)}`
+}
+
 // Helper to create default categories with colors
 const createDefaultCategories = (names: string[], startIndex = 0): CategoryItem[] => {
   return names.map((name, i) => ({
-    id: `cat-${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}-${i}`,
+    id: generateUniqueId('cat'),
     name,
     color: getRandomColor(startIndex + i)
   }))
@@ -182,7 +191,7 @@ export function addEvent(event: Omit<Event, "id">): Event {
   const data = getFinancialData()
   const newEvent: Event = {
     ...event,
-    id: `evt-${Date.now()}`,
+    id: generateUniqueId('evt'),
   }
 
   if (event.type === "entity" && event.entityId) {
@@ -262,7 +271,7 @@ export function removeExpense(expenseId: string): void {
 
 export function addEntity(name: string, type: Entity["type"], currency = "USD"): Entity {
   const data = getFinancialData()
-  const entityId = `entity-${Date.now()}`
+  const entityId = generateUniqueId('entity')
   const newEntity: Entity = {
     id: entityId,
     name: name,
@@ -290,7 +299,7 @@ export function addAccount(account: Omit<Account, "id" | "createdAt">): Account 
   const data = getFinancialData()
   const newAccount: Account = {
     ...account,
-    id: `acc-${Date.now()}`,
+    id: generateUniqueId('acc'),
     createdAt: new Date().toISOString(),
   }
 
@@ -318,7 +327,7 @@ export function addBankCard(card: Omit<BankCard, "id">): BankCard {
   const data = getFinancialData()
   const newCard: BankCard = {
     ...card,
-    id: `card-${Date.now()}`,
+    id: generateUniqueId('card'),
   }
 
   data.cards.push(newCard)
@@ -458,11 +467,15 @@ export function removeCustomCategory(entityType: string, categoryId: string): vo
 export function generateTestData(): void {
   const data = getFinancialData()
   
+  // Reset ID counter to ensure fresh IDs
+  idCounter = 0
+  
   // Clear existing data
   data.entities = {}
   data.events = []
   data.personalEvents = []
   data.accounts = []
+  data.cards = [] // Clear cards too
   data.totalIncome = 0
   data.totalExpenses = 0
   data.personalTotalIncome = 0

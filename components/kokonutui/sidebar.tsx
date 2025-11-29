@@ -98,6 +98,9 @@ export default function Sidebar() {
                   <NavItem href="/categories" icon={Tags}>
                     Categorías
                   </NavItem>
+                  <NavItem href="/transactions" icon={Receipt}>
+                    Transacciones
+                  </NavItem>
                 </div>
               </div>
             </div>
