@@ -25,7 +25,7 @@ export default function HouseBreakdown({ data, className }: HouseBreakdownProps)
         className,
       )}
     >
-      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">Expenses by House</h3>
+      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">Expenses by Entity</h3>
 
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>

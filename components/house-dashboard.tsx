@@ -1,9 +1,15 @@
 "use client"
 
-import type { HouseData } from "@/lib/google-calendar-client"
+import type { Expense } from "@/lib/local-storage"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
+import { ArrowLeft } from "lucide-react"
+
+interface HouseData {
+  totalExpenses: number
+  expenses: Expense[]
+}
 
 interface HouseDashboardProps {
   house: string
@@ -42,8 +48,9 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <Button onClick={onBack} variant="outline">
-        ← Back to Dashboard
+      <Button onClick={onBack} variant="outline" className="gap-2 bg-transparent">
+        <ArrowLeft className="w-4 h-4" />
+        Back to Dashboard
       </Button>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -123,6 +130,7 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
                   <tr className="border-b">
                     <th className="text-left py-2 px-3">Date</th>
                     <th className="text-left py-2 px-3">Category</th>
+                    <th className="text-left py-2 px-3">Payment</th>
                     <th className="text-right py-2 px-3">Amount</th>
                   </tr>
                 </thead>
@@ -131,7 +139,10 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
                     <tr key={expense.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-900/50">
                       <td className="py-2 px-3">{new Date(expense.date).toLocaleDateString()}</td>
                       <td className="py-2 px-3">{expense.category}</td>
-                      <td className="text-right py-2 px-3 font-semibold">${expense.amount.toFixed(2)}</td>
+                      <td className="py-2 px-3">{expense.paymentMethod}</td>
+                      <td className="text-right py-2 px-3 font-semibold">
+                        {expense.currency} {expense.amount.toFixed(2)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

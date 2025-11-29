@@ -1,233 +1,197 @@
+
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useCalendarSync } from "@/hooks/use-calendar-sync"
-import { getCustomHouses, addCustomHouse, removeCustomHouse } from "@/lib/google-calendar-client"
+import { useState } from "react"
+import { getFinancialData, addEvent, removeEvent, removeBankCard, removeEntity, generateTestData } from "@/lib/local-storage"
 import Layout from "@/components/kokonutui/layout"
 import DashboardStats from "@/components/dashboard-stats"
-import ExpensesChart from "@/components/expenses-chart"
-import HouseBreakdown from "@/components/house-breakdown"
-import HouseDashboard from "@/components/house-dashboard"
-import HouseManager from "@/components/house-manager"
+import EntityCard from "@/components/entity-card"
+import BankCard from "@/components/bank-card"
+import AddEventModal from "@/components/add-event-modal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Plus, Trash2, Database } from "lucide-react"
 
 export default function DashboardPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const { data, loading, error, syncCalendar } = useCalendarSync()
-  const [selectedHouse, setSelectedHouse] = useState<string | null>(null)
-  const [customHouses, setCustomHouses] = useState<string[]>([])
-  const [showHouseManager, setShowHouseManager] = useState(false)
-  const [userInfo, setUserInfo] = useState<any>(null)
+  const [data, setData] = useState(getFinancialData())
+  const [showAddExpense, setShowAddExpense] = useState(false)
+  const [expenseType, setExpenseType] = useState<"entity" | "personal">("entity")
+  const [showAddCard, setShowAddCard] = useState(false)
 
-  useEffect(() => {
-    const token = searchParams.get("token")
-    const userStr = searchParams.get("user")
-    const authSuccess = searchParams.get("auth_success")
+  const refreshData = () => setData(getFinancialData())
 
-    if (token) {
-      localStorage.setItem("google-access-token", token)
-      if (userStr) {
-        localStorage.setItem("google-user-info", userStr)
-        setUserInfo(JSON.parse(userStr))
-      }
-      // Clean URL
-      router.replace("/dashboard")
-    }
-
-    const token_stored = localStorage.getItem("google-access-token")
-    if (!token_stored) {
-      router.push("/login")
-      return
-    }
-
-    const userInfoStored = localStorage.getItem("google-user-info")
-    if (userInfoStored) {
-      setUserInfo(JSON.parse(userInfoStored))
-    }
-
-    setCustomHouses(getCustomHouses())
-  }, [router, searchParams])
-
-  // Auto-sync on mount
-  useEffect(() => {
-    if (localStorage.getItem("google-access-token")) {
-      syncCalendar()
-    }
-  }, [])
-
-  if (!localStorage.getItem("google-access-token")) {
-    return null
+  const handleAddEvent = (event: any) => {
+    addEvent(event)
+    refreshData()
   }
 
-  const stats = data
-    ? {
-        totalExpenses: data.totalExpenses,
-        totalHouses: Object.keys(data.houses).length,
-        averagePerHouse: data.totalExpenses / (Object.keys(data.houses).length || 1),
-      }
-    : { totalExpenses: 0, totalHouses: 0, averagePerHouse: 0 }
-
-  const chartData = data
-    ? Object.entries(data.houses).map(([name, house]) => ({
-        name,
-        amount: house.totalExpenses,
-      }))
-    : []
-
-  const handleAddHouse = (houseName: string) => {
-    addCustomHouse(houseName)
-    setCustomHouses(getCustomHouses())
+  const handleRemoveEvent = (eventId: string) => {
+    removeEvent(eventId)
+    refreshData()
   }
 
-  const handleRemoveHouse = (houseName: string) => {
-    removeCustomHouse(houseName)
-    setCustomHouses(getCustomHouses())
-    if (selectedHouse === houseName) {
-      setSelectedHouse(null)
-    }
+  const handleRemoveEntity = (entityId: string) => {
+    removeEntity(entityId)
+    refreshData()
   }
+
+  const entities = Object.values(data.entities)
 
   return (
     <Layout>
-      <div className="space-y-4 sm:space-y-6">
-        {/* Header with user and sync */}
+      <div className="space-y-6 sm:space-y-8">
+        {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
           <div>
-            {userInfo && (
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Welcome, <span className="font-semibold">{userInfo.name}</span>
-              </p>
-            )}
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground mt-1">Welcome back, here's your financial overview.</p>
           </div>
-          <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex gap-2 w-full sm:w-auto flex-wrap">
             <Button
-              onClick={syncCalendar}
-              disabled={loading}
-              className="flex-1 sm:flex-none bg-transparent"
-              variant="outline"
+              onClick={() => {
+                setExpenseType("entity")
+                setShowAddExpense(true)
+              }}
+              className="flex-1 sm:flex-none"
+              disabled={entities.length === 0}
             >
-              {loading ? "Syncing..." : "Sync Calendar"}
-            </Button>
-            <Button onClick={() => setShowHouseManager(true)} className="flex-1 sm:flex-none" variant="outline">
-              Manage Houses
+              <Plus className="w-4 h-4 mr-2" />
+              Añadir Evento
             </Button>
             <Button
               onClick={() => {
-                localStorage.removeItem("google-access-token")
-                localStorage.removeItem("google-user-info")
-                router.push("/login")
+                generateTestData()
+                window.location.reload()
               }}
+              variant="outline"
               className="flex-1 sm:flex-none"
-              variant="destructive"
             >
-              Logout
+              <Database className="w-4 h-4 mr-2" />
+              Datos de Prueba
             </Button>
           </div>
         </div>
 
-        {error && (
-          <Card className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
-            <CardContent className="pt-6 text-sm text-red-600 dark:text-red-400">{error}</CardContent>
-          </Card>
-        )}
+        {/* Stats */}
+        <DashboardStats
+          totalExpenses={data.totalExpenses}
+          totalHouses={entities.length}
+          averagePerHouse={data.totalExpenses / (entities.length || 1)}
+          personalExpenses={data.personalTotalExpenses}
+        />
 
-        {/* Global Dashboard */}
-        {!selectedHouse && (
-          <>
-            <DashboardStats
-              totalExpenses={stats.totalExpenses}
-              totalHouses={stats.totalHouses}
-              averagePerHouse={stats.averagePerHouse}
-            />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <ExpensesChart data={chartData} />
-              <HouseBreakdown data={chartData} />
+        {/* Entities Section */}
+        {entities.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight mb-6">Your Entities</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {entities.map((entity) => (
+                <EntityCard
+                  key={entity.id}
+                  entity={entity}
+                  onDelete={() => handleRemoveEntity(entity.id)}
+                />
+              ))}
             </div>
+          </div>
+        )}
 
-            {/* All Expenses */}
-            <Card>
-              <CardHeader>
-                <CardTitle>All Expenses</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {data && data.expenses.length > 0 ? (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left py-2 px-3">Date</th>
-                          <th className="text-left py-2 px-3">House</th>
-                          <th className="text-left py-2 px-3">Category</th>
-                          <th className="text-right py-2 px-3">Amount</th>
+        {/* Personal Cards Section */}
+        {data.cards.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold tracking-tight">Your Cards</h2>
+              <Button onClick={() => setShowAddCard(true)} variant="outline" size="sm">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Card
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {data.cards.map((card) => (
+                <BankCard
+                  key={card.id}
+                  name={card.name}
+                  balance={card.balance}
+                  limit={card.limit}
+                  currency={card.currency}
+                  lastFourDigits={card.lastFourDigits}
+                  cardType={card.cardType}
+                  onDelete={() => {
+                    removeBankCard(card.id)
+                    refreshData()
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recent Activity (Combined) */}
+        <div className="grid grid-cols-1 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Type</th>
+                      <th className="text-left py-3 px-4 font-medium text-muted-foreground">Category</th>
+                      <th className="text-right py-3 px-4 font-medium text-muted-foreground">Amount</th>
+                      <th className="text-center py-3 px-4 font-medium text-muted-foreground">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...data.events, ...data.personalEvents]
+                      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                      .slice(0, 10)
+                      .map((expense) => (
+                        <tr key={expense.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
+                          <td className="py-3 px-4">{new Date(expense.date).toLocaleDateString()}</td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${expense.type === "entity"
+                                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                                }`}
+                            >
+                              {expense.type === "entity" && expense.entityId && data.entities[expense.entityId]
+                                ? data.entities[expense.entityId].name
+                                : "Personal"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4">{expense.category}</td>
+                          <td className="text-right py-3 px-4 font-semibold">
+                            {expense.currency} {expense.amount.toFixed(2)}
+                          </td>
+                          <td className="text-center py-3 px-4">
+                            <button
+                              onClick={() => handleRemoveEvent(expense.id)}
+                              className="text-muted-foreground hover:text-destructive transition-colors"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {data.expenses.map((expense) => (
-                          <tr key={expense.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-900/50">
-                            <td className="py-2 px-3">{new Date(expense.date).toLocaleDateString()}</td>
-                            <td className="py-2 px-3">{expense.house}</td>
-                            <td className="py-2 px-3">{expense.category}</td>
-                            <td className="text-right py-2 px-3 font-semibold">${expense.amount.toFixed(2)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <p className="text-gray-500 dark:text-gray-400">
-                    No expenses found. Create events in your calendar starting with "$"
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-            {/* House Selection */}
-            {data && Object.keys(data.houses).length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Expenses by House</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {Object.entries(data.houses).map(([houseName]) => (
-                      <Button
-                        key={houseName}
-                        onClick={() => setSelectedHouse(houseName)}
-                        variant="outline"
-                        className="h-auto p-4 flex-col items-start"
-                      >
-                        <span className="font-semibold">{houseName}</span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                          ${data.houses[houseName].totalExpenses.toFixed(2)}
-                        </span>
-                      </Button>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </>
-        )}
-
-        {/* Individual House Dashboard */}
-        {selectedHouse && data && (
-          <HouseDashboard
-            house={selectedHouse}
-            houseData={data.houses[selectedHouse]}
-            onBack={() => setSelectedHouse(null)}
-          />
-        )}
-
-        {/* House Manager Modal */}
-        {showHouseManager && (
-          <HouseManager
-            onClose={() => setShowHouseManager(false)}
-            onAdd={handleAddHouse}
-            onRemove={handleRemoveHouse}
+        {/* Add Event Modal */}
+        {showAddExpense && (
+          <AddEventModal
+            onClose={() => setShowAddExpense(false)}
+            onAdd={handleAddEvent}
+            entities={entities}
+            accounts={data.accounts}
+            defaultType={expenseType}
           />
         )}
       </div>

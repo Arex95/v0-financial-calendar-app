@@ -100,17 +100,54 @@ export default function Sidebar() {
                   Overview
                 </div>
                 <div className="space-y-1">
-                  <NavItem href="/dashboard" icon={Home}>
+                  <NavItem href="#" icon={Home}>
                     Dashboard
                   </NavItem>
-                  <NavItem href="/entities" icon={Building2}>
-                    Entities
-                  </NavItem>
-                  <NavItem href="/accounts" icon={CreditCard}>
-                    Cuentas
-                  </NavItem>
-                  <NavItem href="/analytics" icon={BarChart2}>
+                  <NavItem href="#" icon={BarChart2}>
                     Analytics
+                  </NavItem>
+                  <NavItem href="#" icon={Building2}>
+                    Organization
+                  </NavItem>
+                  <NavItem href="#" icon={Folder}>
+                    Projects
+                  </NavItem>
+                </div>
+              </div>
+
+              <div>
+                <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Finance
+                </div>
+                <div className="space-y-1">
+                  <NavItem href="#" icon={Wallet}>
+                    Transactions
+                  </NavItem>
+                  <NavItem href="#" icon={Receipt}>
+                    Invoices
+                  </NavItem>
+                  <NavItem href="#" icon={CreditCard}>
+                    Payments
+                  </NavItem>
+                </div>
+              </div>
+
+              <div>
+                <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Team
+                </div>
+                <div className="space-y-1">
+                  <NavItem href="#" icon={Users2}>
+                    Members
+                  </NavItem>
+                  <NavItem href="#" icon={Shield}>
+                    Permissions
+                  </NavItem>
+                  <NavItem href="#" icon={MessagesSquare}>
+                    Chat
+                  </NavItem>
+                  <NavItem href="#" icon={Video}>
+                    Meetings
                   </NavItem>
                 </div>
               </div>
