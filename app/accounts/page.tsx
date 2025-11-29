@@ -4,17 +4,26 @@ import { useState } from "react"
 import { getFinancialData, addAccount, removeAccount, type Account } from "@/lib/local-storage"
 import Layout from "@/components/kokonutui/layout"
 import { Button } from "@/components/ui/button"
-import { Plus, CreditCard, Banknote, Wallet, Trash2 } from "lucide-react"
+import { Plus, CreditCard, Banknote, Wallet, Trash2, MoreVertical } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog"
 
 export default function AccountsPage() {
   const [data, setData] = useState(getFinancialData())
   const [showAddAccount, setShowAddAccount] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null)
   const [accountName, setAccountName] = useState("")
   const [accountType, setAccountType] = useState<Account["type"]>("Bank Account" as Account["type"])
   const [accountBalance, setAccountBalance] = useState("")
@@ -42,9 +51,18 @@ export default function AccountsPage() {
     }
   }
 
-  const handleRemoveAccount = (accountId: string) => {
-    removeAccount(accountId)
-    refreshData()
+  const confirmDeleteAccount = (account: Account) => {
+    setSelectedAccount(account)
+    setShowDeleteDialog(true)
+  }
+
+  const handleRemoveAccount = () => {
+    if (selectedAccount) {
+      removeAccount(selectedAccount.id)
+      setShowDeleteDialog(false)
+      setSelectedAccount(null)
+      refreshData()
+    }
   }
 
   const getAccountIcon = (type: Account["type"]) => {
@@ -82,19 +100,33 @@ export default function AccountsPage() {
             const availableCredit = account.limit ? account.limit - account.balance : 0
 
             return (
-              <Card key={account.id} className="hover:shadow-lg transition-shadow">
+              <Card key={account.id} className="hover:shadow-lg transition-shadow group">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       {getAccountIcon(account.type)}
                       <CardTitle className="text-base">{account.name}</CardTitle>
                     </div>
-                    <button
-                      onClick={() => handleRemoveAccount(account.id)}
-                      className="text-muted-foreground hover:text-destructive transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <MoreVertical className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          className="text-destructive focus:text-destructive"
+                          onClick={() => confirmDeleteAccount(account)}
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Eliminar
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -224,6 +256,14 @@ export default function AccountsPage() {
             </DialogContent>
           </Dialog>
         )}
+
+        <DeleteConfirmationDialog
+          open={showDeleteDialog}
+          onOpenChange={setShowDeleteDialog}
+          onConfirm={handleRemoveAccount}
+          title="¿Eliminar cuenta?"
+          description={`¿Estás seguro de que quieres eliminar la cuenta "${selectedAccount?.name}"? Esta acción no se puede deshacer.`}
+        />
       </div>
     </Layout>
   )

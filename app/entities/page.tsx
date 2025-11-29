@@ -8,14 +8,16 @@ import EntityCard from "@/components/entity-card"
 import { Button } from "@/components/ui/button"
 import { Plus, Calendar } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog"
 
 export default function EntitiesPage() {
   const [data, setData] = useState(getFinancialData())
   const [showAddEntity, setShowAddEntity] = useState(false)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null)
   const [newEntityName, setNewEntityName] = useState("")
   const [newEntityType, setNewEntityType] = useState<Entity["type"]>("House")
@@ -32,9 +34,18 @@ export default function EntitiesPage() {
     }
   }
 
-  const handleRemoveEntity = (entityId: string) => {
-    removeEntity(entityId)
-    refreshData()
+  const confirmDeleteEntity = (entity: Entity) => {
+    setSelectedEntity(entity)
+    setShowDeleteDialog(true)
+  }
+
+  const handleRemoveEntity = () => {
+    if (selectedEntity) {
+      removeEntity(selectedEntity.id)
+      setShowDeleteDialog(false)
+      setSelectedEntity(null)
+      refreshData()
+    }
   }
 
   const handleViewDetails = (entity: Entity) => {
@@ -70,7 +81,7 @@ export default function EntitiesPage() {
             <EntityCard
               key={entity.id}
               entity={entity}
-              onDelete={() => handleRemoveEntity(entity.id)}
+              onDelete={() => confirmDeleteEntity(entity)}
               onViewDetails={() => handleViewDetails(entity)}
               onEdit={() => handleEdit(entity)}
             />
@@ -186,6 +197,14 @@ export default function EntitiesPage() {
             </DialogContent>
           </Dialog>
         )}
+        {/* Delete Confirmation Dialog */}
+        <DeleteConfirmationDialog
+          open={showDeleteDialog}
+          onOpenChange={setShowDeleteDialog}
+          onConfirm={handleRemoveEntity}
+          title="¿Eliminar entidad?"
+          description={`¿Estás seguro de que quieres eliminar la entidad "${selectedEntity?.name}"? Esto eliminará también todos los eventos asociados. Esta acción no se puede deshacer.`}
+        />
       </div>
     </Layout>
   )

@@ -12,11 +12,24 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Plus, Trash2, Database } from "lucide-react"
 
+import DeleteConfirmationDialog from "@/components/delete-confirmation-dialog"
+
 export default function DashboardPage() {
   const [data, setData] = useState(getFinancialData())
   const [showAddExpense, setShowAddExpense] = useState(false)
   const [expenseType, setExpenseType] = useState<"entity" | "personal">("entity")
   const [showAddCard, setShowAddCard] = useState(false)
+
+  // Delete confirmation state
+  const [deleteDialogState, setDeleteDialogState] = useState<{
+    open: boolean
+    type: "event" | "entity" | "card" | null
+    id: string | null
+  }>({
+    open: false,
+    type: null,
+    id: null
+  })
 
   const refreshData = () => setData(getFinancialData())
 
@@ -25,14 +38,24 @@ export default function DashboardPage() {
     refreshData()
   }
 
-  const handleRemoveEvent = (eventId: string) => {
-    removeEvent(eventId)
+  const confirmDelete = () => {
+    const { type, id } = deleteDialogState
+    if (!id) return
+
+    if (type === "event") {
+      removeEvent(id)
+    } else if (type === "entity") {
+      removeEntity(id)
+    } else if (type === "card") {
+      removeBankCard(id)
+    }
+
     refreshData()
+    setDeleteDialogState({ open: false, type: null, id: null })
   }
 
-  const handleRemoveEntity = (entityId: string) => {
-    removeEntity(entityId)
-    refreshData()
+  const promptDelete = (type: "event" | "entity" | "card", id: string) => {
+    setDeleteDialogState({ open: true, type, id })
   }
 
   const entities = Object.values(data.entities)
@@ -89,7 +112,7 @@ export default function DashboardPage() {
                 <EntityCard
                   key={entity.id}
                   entity={entity}
-                  onDelete={() => handleRemoveEntity(entity.id)}
+                  onDelete={() => promptDelete("entity", entity.id)}
                 />
               ))}
             </div>
@@ -116,10 +139,7 @@ export default function DashboardPage() {
                   currency={card.currency}
                   lastFourDigits={card.lastFourDigits}
                   cardType={card.cardType}
-                  onDelete={() => {
-                    removeBankCard(card.id)
-                    refreshData()
-                  }}
+                  onDelete={() => promptDelete("card", card.id)}
                 />
               ))}
             </div>
@@ -149,7 +169,7 @@ export default function DashboardPage() {
                       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                       .slice(0, 10)
                       .map((expense) => (
-                        <tr key={expense.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
+                        <tr key={`${expense.type}-${expense.id}`} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
                           <td className="py-3 px-4">{new Date(expense.date).toLocaleDateString()}</td>
                           <td className="py-3 px-4">
                             <span
@@ -169,7 +189,7 @@ export default function DashboardPage() {
                           </td>
                           <td className="text-center py-3 px-4">
                             <button
-                              onClick={() => handleRemoveEvent(expense.id)}
+                              onClick={() => promptDelete("event", expense.id)}
                               className="text-muted-foreground hover:text-destructive transition-colors"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -194,6 +214,18 @@ export default function DashboardPage() {
             defaultType={expenseType}
           />
         )}
+
+        <DeleteConfirmationDialog
+          open={deleteDialogState.open}
+          onOpenChange={(open) => setDeleteDialogState(prev => ({ ...prev, open }))}
+          onConfirm={confirmDelete}
+          title={
+            deleteDialogState.type === "event" ? "¿Eliminar evento?" :
+              deleteDialogState.type === "entity" ? "¿Eliminar entidad?" :
+                "¿Eliminar tarjeta?"
+          }
+          description="Esta acción no se puede deshacer."
+        />
       </div>
     </Layout>
   )

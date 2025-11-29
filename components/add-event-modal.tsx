@@ -41,19 +41,21 @@ export default function AddEventModal({
 
   const availableCategories = useMemo(() => {
     if (eventType === "income") {
-      return INCOME_CATEGORIES
+      return INCOME_CATEGORIES.map(name => ({ id: name, name, color: "#22c55e" })) // Green for income
     }
 
     if (type === "entity" && selectedEntity) {
       return getCategoriesForEntityType(selectedEntity.type)
     }
 
-    return ["Food & Dining", "Transportation", "Shopping", "Entertainment", "Healthcare", "Other"]
+    // Default personal categories fallback
+    const personalCats = ["Food & Dining", "Transportation", "Shopping", "Entertainment", "Healthcare", "Other"]
+    return personalCats.map(name => ({ id: name, name, color: "#64748b" }))
   }, [eventType, type, selectedEntity])
 
   useEffect(() => {
     if (availableCategories.length > 0 && !category) {
-      setCategory(availableCategories[0])
+      setCategory(availableCategories[0].name)
     }
   }, [availableCategories, category])
 
@@ -178,7 +180,15 @@ export default function AddEventModal({
                 <SelectTrigger><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger>
                 <SelectContent>
                   {availableCategories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                    <SelectItem key={cat.id} value={cat.name}>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: cat.color }}
+                        />
+                        {cat.name}
+                      </div>
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>

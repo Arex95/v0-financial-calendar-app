@@ -14,8 +14,8 @@ interface BreadcrumbItem {
 
 export default function TopNav() {
   const breadcrumbs: BreadcrumbItem[] = [
-    { label: "kokonutUI", href: "#" },
-    { label: "dashboard", href: "#" },
+    { label: "Financial Calendar", href: "/dashboard" },
+    { label: "dashboard" },
   ]
 
   const handleConnectCalendar = () => {
