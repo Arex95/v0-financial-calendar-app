@@ -1,8 +1,9 @@
-/** @type {import('postcss-load-config').Config} */
-const config = {
+/**
+ * PostCSS Configuration for Tailwind CSS 4
+ */
+export default {
   plugins: {
-    tailwindcss: {},
+    '@tailwindcss/postcss': {},
   },
 }
 
-export default config

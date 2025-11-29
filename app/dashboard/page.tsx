@@ -174,8 +174,8 @@ export default function DashboardPage() {
                           <td className="py-3 px-4">
                             <span
                               className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${expense.type === "entity"
-                                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                                : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                                ? "bg-primary/10 text-primary"
+                                : "bg-secondary/10 text-secondary"
                                 }`}
                             >
                               {expense.type === "entity" && expense.entityId && data.entities[expense.entityId]

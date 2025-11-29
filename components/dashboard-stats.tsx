@@ -26,19 +26,19 @@ export default function DashboardStats({
       label: "House Expenses",
       value: `$${totalExpenses.toFixed(2)}`,
       icon: Home,
-      color: "text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30",
+      color: "text-primary bg-primary/10",
     },
     {
       label: "Personal Expenses",
       value: `$${personalExpenses.toFixed(2)}`,
       icon: User,
-      color: "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30",
+      color: "text-secondary bg-secondary/10",
     },
     {
       label: "Houses",
       value: totalHouses.toString(),
       icon: Home,
-      color: "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30",
+      color: "text-accent-foreground bg-accent/20",
     },
   ]
 

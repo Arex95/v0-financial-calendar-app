@@ -1,0 +1,304 @@
+/**
+ * Glassmorphism Theme - Light
+ * Premium glass-like design with backdrop blur and transparency
+ * Features vibrant gradients, frosted effects, and modern aesthetics
+ */
+
+@theme {
+  /* ============================================
+     GLASSMORPHISM-SPECIFIC COLORS - LIGHT
+     ============================================ */
+
+  /* Glass Backgrounds (semi-transparent) */
+  --glass-background: rgba(255, 255, 255, 0.7);
+  --glass-background-strong: rgba(255, 255, 255, 0.85);
+  --glass-background-weak: rgba(255, 255, 255, 0.5);
+
+  /* Glass Borders with subtle glow */
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-border-strong: rgba(255, 255, 255, 0.5);
+
+  /* Gradient Accents */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --gradient-info: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+
+  /* Vibrant color palette for glass theme */
+  --glass-primary: rgba(102, 126, 234, 0.9);
+  --glass-primary-light: rgba(102, 126, 234, 0.1);
+  --glass-secondary: rgba(240, 147, 251, 0.9);
+  --glass-accent: rgba(74, 207, 254, 0.9);
+
+  /* ============================================
+     THEME ASSIGNMENTS - GLASSMORPHISM LIGHT
+     ============================================ */
+
+  /* Backgrounds */
+  --color-background-glass: 220 60% 98%;
+  --color-foreground-glass: 220 13% 13%;
+
+  /* Card & Surfaces - transparent with blur */
+  --color-card-glass: 0 0% 100% / 0.7;
+  --color-card-foreground-glass: 220 13% 13%;
+
+  --color-popover-glass: 0 0% 100% / 0.85;
+  --color-popover-foreground-glass: 220 13% 13%;
+
+  /* Primary - Vibrant purple-blue */
+  --color-primary-glass: 250 70% 60%;
+  --color-primary-foreground-glass: 0 0% 100%;
+
+  /* Secondary - Vibrant pink */
+  --color-secondary-glass: 320 80% 65%;
+  --color-secondary-foreground-glass: 0 0% 100%;
+
+  /* Muted - Glass effect */
+  --color-muted-glass: 220 30% 96% / 0.6;
+  --color-muted-foreground-glass: 220 13% 46%;
+
+  /* Accent - Cyan */
+  --color-accent-glass: 190 90% 60%;
+  --color-accent-foreground-glass: 0 0% 100%;
+
+  /* Destructive */
+  --color-destructive-glass: 0 72% 51%;
+  --color-destructive-foreground-glass: 0 0% 100%;
+
+  /* Borders - semi-transparent with glow */
+  --color-border-glass: 220 30% 80% / 0.3;
+  --color-input-glass: 220 30% 90% / 0.4;
+  --color-ring-glass: 250 70% 60%;
+
+  /* ============================================
+     GLASSMORPHISM SHADOWS - Enhanced depth
+     ============================================ */
+  --shadow-glass-sm: 0 2px 8px 0 rgb(31 38 135 / 0.15);
+  --shadow-glass-base: 0 4px 12px 0 rgb(31 38 135 / 0.2),
+    0 0 1px 0 rgb(255 255 255 / 0.5) inset;
+  --shadow-glass-md: 0 8px 16px 0 rgb(31 38 135 / 0.25),
+    0 0 1px 0 rgb(255 255 255 / 0.6) inset;
+  --shadow-glass-lg: 0 12px 24px 0 rgb(31 38 135 / 0.3),
+    0 0 1px 0 rgb(255 255 255 / 0.7) inset;
+  --shadow-glass-xl: 0 20px 40px 0 rgb(31 38 135 / 0.35),
+    0 0 2px 0 rgb(255 255 255 / 0.8) inset;
+  --shadow-glass-2xl: 0 25px 50px 0 rgb(31 38 135 / 0.4),
+    0 0 2px 0 rgb(255 255 255 / 0.9) inset;
+
+  /* ============================================
+     SIDEBAR - GLASSMORPHISM LIGHT
+     ============================================ */
+  --color-sidebar-background-glass: 220 60% 98% / 0.7;
+  --color-sidebar-foreground-glass: 220 13% 26%;
+  --color-sidebar-primary-glass: 250 70% 60%;
+  --color-sidebar-primary-foreground-glass: 0 0% 100%;
+  --color-sidebar-accent-glass: 220 30% 96% / 0.5;
+  --color-sidebar-accent-foreground-glass: 250 70% 60%;
+  --color-sidebar-border-glass: 220 30% 80% / 0.3;
+  --color-sidebar-ring-glass: 250 70% 60%;
+}
+
+/* ============================================
+   GLASSMORPHISM LIGHT - Component Styling
+   ============================================ */
+
+.glass-light,
+[data-theme="glass-light"] {
+  /* Apply glassmorphism colors */
+  --background: var(--color-background-glass);
+  --foreground: var(--color-foreground-glass);
+
+  --card: var(--color-card-glass);
+  --card-foreground: var(--color-card-foreground-glass);
+
+  --popover: var(--color-popover-glass);
+  --popover-foreground: var(--color-popover-foreground-glass);
+
+  --primary: var(--color-primary-glass);
+  --primary-foreground: var(--color-primary-foreground-glass);
+
+  --secondary: var(--color-secondary-glass);
+  --secondary-foreground: var(--color-secondary-foreground-glass);
+
+  --muted: var(--color-muted-glass);
+  --muted-foreground: var(--color-muted-foreground-glass);
+
+  --accent: var(--color-accent-glass);
+  --accent-foreground: var(--color-accent-foreground-glass);
+
+  --destructive: var(--color-destructive-glass);
+  --destructive-foreground: var(--color-destructive-foreground-glass);
+
+  /* Success - Vibrant green for glass */
+  --success: 142.1 76.2% 45.3%;
+  --success-foreground: 0 0% 100%;
+
+  /* Warning - Vibrant amber for glass */
+  --warning: 32.1 94.6% 52%;
+  --warning-foreground: 0 0% 100%;
+
+  --border: var(--color-border-glass);
+  --input: var(--color-input-glass);
+  --ring: var(--color-ring-glass);
+
+  --radius: var(--radius-xl);
+
+  /* Enhanced chart colors for glass theme */
+  --chart-1: #667eea;
+  --chart-2: #00f2fe;
+  --chart-3: #fee140;
+  --chart-4: #f5576c;
+  --chart-5: #764ba2;
+  --chart-6: #f093fb;
+  --chart-7: #30cfd0;
+  --chart-8: #fa709a;
+
+  /* Sidebar */
+  --sidebar-background: var(--color-sidebar-background-glass);
+  --sidebar-foreground: var(--color-sidebar-foreground-glass);
+  --sidebar-primary: var(--color-sidebar-primary-glass);
+  --sidebar-primary-foreground: var(--color-sidebar-primary-foreground-glass);
+  --sidebar-accent: var(--color-sidebar-accent-glass);
+  --sidebar-accent-foreground: var(--color-sidebar-accent-foreground-glass);
+  --sidebar-border: var(--color-sidebar-border-glass);
+  --sidebar-ring: var(--color-sidebar-ring-glass);
+
+  /* Apply glass shadows */
+  --shadow-sm: var(--shadow-glass-sm);
+  --shadow-base: var(--shadow-glass-base);
+  --shadow-md: var(--shadow-glass-md);
+  --shadow-lg: var(--shadow-glass-lg);
+  --shadow-xl: var(--shadow-glass-xl);
+  --shadow-2xl: var(--shadow-glass-2xl);
+}
+
+/*
+   VIBRANT GRADIENT BACKGROUND
+   Essential for glassmorphism to show the blur effect
+*/
+html.glass-light body,
+body[data-theme="glass-light"] {
+  background-color: #f0f2f5;
+  background-image:
+    radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(340, 100%, 76%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(269, 100%, 77%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(22, 100%, 77%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(242, 100%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Glass card effect - Increased transparency */
+/* Glass card effect - Increased opacity for readability */
+.glass-light .card-base,
+.glass-light [class*="card"],
+.glass-light .bg-card,
+.glass-light .bg-white,
+.glass-light .bg-background,
+.glass-light .popover-content,
+.glass-light [role="dialog"],
+.glass-light [role="menu"],
+.glass-light [role="tooltip"],
+.glass-light [data-state="open"] {
+  background: rgba(255, 255, 255, 0.85) !important;
+  /* Increased to 0.85 */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+
+
+/* Sidebar glass effect */
+.glass-light nav,
+.glass-light aside {
+  background: rgba(255, 255, 255, 0.65) !important;
+  /* Increased from 0.3 */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Glass button effect */
+.glass-light .button-base,
+.glass-light button {
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  border: 1px solid var(--glass-border);
+  transition: all var(--transition-base);
+}
+
+.glass-light .button-base:hover,
+.glass-light button:hover {
+  background: var(--glass-background-strong);
+  border-color: var(--glass-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass-lg);
+}
+
+/* Glass input effect */
+.glass-light .input-base,
+.glass-light input,
+.glass-light textarea,
+.glass-light select {
+  background: var(--glass-background-weak);
+  backdrop-filter: blur(var(--blur-base));
+  -webkit-backdrop-filter: blur(var(--blur-base));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-light .input-base:focus,
+.glass-light input:focus,
+.glass-light textarea:focus,
+.glass-light select:focus {
+  background: var(--glass-background);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsla(var(--primary) / 0.1);
+}
+
+/* Glass modal/dialog backdrop */
+.glass-light .overlay .backdrop {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(var(--blur-2xl));
+  -webkit-backdrop-filter: blur(var(--blur-2xl));
+}
+
+/* Gradient text effect */
+.glass-light .gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: var(--font-weight-bold);
+}
+
+/* Glowing border effect */
+.glass-light .glow-border {
+  position: relative;
+  border: 1px solid transparent;
+  background: linear-gradient(var(--glass-background), var(--glass-background)) padding-box,
+    var(--gradient-primary) border-box;
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Selection color for glass theme */
+.glass-light ::selection {
+  background: var(--glass-primary-light);
+  color: var(--glass-primary);
+}
+
+/* Scrollbar for glass theme */
+.glass-light ::-webkit-scrollbar-thumb {
+  background: var(--glass-background-strong);
+  backdrop-filter: blur(var(--blur-base));
+  border: 2px solid var(--glass-border);
+}
+
+.glass-light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 126, 234, 0.3);
+}

@@ -1,0 +1,383 @@
+/**
+ * Glassmorphism Theme - Dark
+ * Premium dark glass design with neon accents and deep blur effects
+ * Features glowing borders, transparency, and vibrant contrast
+ */
+
+@theme {
+  /* ============================================
+     GLASSMORPHISM-SPECIFIC COLORS - DARK
+     ============================================ */
+
+  /* Dark Glass Backgrounds (semi-transparent) */
+  --glass-background-dark: rgba(15, 23, 42, 0.7);
+  --glass-background-strong-dark: rgba(15, 23, 42, 0.85);
+  --glass-background-weak-dark: rgba(15, 23, 42, 0.5);
+
+  /* Glass Borders with neon glow */
+  --glass-border-dark: rgba(148, 163, 184, 0.2);
+  --glass-border-strong-dark: rgba(148, 163, 184, 0.4);
+  --glass-border-glow-dark: rgba(139, 92, 246, 0.5);
+
+  /* Neon Gradient Accents */
+  --gradient-primary-dark: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  --gradient-secondary-dark: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --gradient-success-dark: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+  --gradient-warning-dark: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-neon: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #06b6d4 100%);
+
+  /* Vibrant neon colors for dark glass theme */
+  --glass-primary-dark: rgba(139, 92, 246, 0.9);
+  --glass-primary-light-dark: rgba(139, 92, 246, 0.15);
+  --glass-secondary-dark: rgba(236, 72, 153, 0.9);
+  --glass-accent-dark: rgba(6, 182, 212, 0.9);
+
+  /* ============================================
+     THEME ASSIGNMENTS - GLASSMORPHISM DARK
+     ============================================ */
+
+  /* Backgrounds */
+  --color-background-glass-dark: 222 47% 11%;
+  --color-foreground-glass-dark: 210 40% 98%;
+
+  /* Card & Surfaces - transparent with blur */
+  --color-card-glass-dark: 222 47% 11% / 0.7;
+  --color-card-foreground-glass-dark: 210 40% 98%;
+
+  --color-popover-glass-dark: 222 47% 11% / 0.85;
+  --color-popover-foreground-glass-dark: 210 40% 98%;
+
+  /* Primary - Neon purple */
+  --color-primary-glass-dark: 271 91% 65%;
+  --color-primary-foreground-glass-dark: 0 0% 100%;
+
+  /* Secondary - Neon pink */
+  --color-secondary-glass-dark: 330 81% 60%;
+  --color-secondary-foreground-glass-dark: 0 0% 100%;
+
+  /* Muted - Dark glass effect */
+  --color-muted-glass-dark: 217 33% 17% / 0.6;
+  --color-muted-foreground-glass-dark: 215 20% 65%;
+
+  /* Accent - Neon cyan */
+  --color-accent-glass-dark: 189 94% 43%;
+  --color-accent-foreground-glass-dark: 0 0% 100%;
+
+  /* Destructive */
+  --color-destructive-glass-dark: 0 63% 31%;
+  --color-destructive-foreground-glass-dark: 0 0% 100%;
+
+  /* Borders - semi-transparent with subtle glow */
+  --color-border-glass-dark: 217 33% 17% / 0.4;
+  --color-input-glass-dark: 217 33% 17% / 0.5;
+  --color-ring-glass-dark: 271 91% 65%;
+
+  /* ============================================
+     GLASSMORPHISM SHADOWS - DARK Enhanced
+     ============================================ */
+  --shadow-glass-sm-dark: 0 2px 8px 0 rgb(0 0 0 / 0.5),
+    0 0 1px 0 rgb(139 92 246 / 0.1) inset;
+  --shadow-glass-base-dark: 0 4px 12px 0 rgb(0 0 0 / 0.6),
+    0 0 1px 0 rgb(139 92 246 / 0.15) inset;
+  --shadow-glass-md-dark: 0 8px 16px 0 rgb(0 0 0 / 0.7),
+    0 0 2px 0 rgb(139 92 246 / 0.2) inset;
+  --shadow-glass-lg-dark: 0 12px 24px 0 rgb(0 0 0 / 0.8),
+    0 0 2px 0 rgb(139 92 246 / 0.25) inset;
+  --shadow-glass-xl-dark: 0 20px 40px 0 rgb(0 0 0 / 0.9),
+    0 0 3px 0 rgb(139 92 246 / 0.3) inset;
+  --shadow-glass-2xl-dark: 0 25px 50px 0 rgb(0 0 0 / 0.95),
+    0 0 3px 0 rgb(139 92 246 / 0.35) inset;
+
+  /* Neon glow shadows */
+  --shadow-neon-purple: 0 0 10px rgba(139, 92, 246, 0.5),
+    0 0 20px rgba(139, 92, 246, 0.3),
+    0 0 30px rgba(139, 92, 246, 0.1);
+  --shadow-neon-pink: 0 0 10px rgba(236, 72, 153, 0.5),
+    0 0 20px rgba(236, 72, 153, 0.3),
+    0 0 30px rgba(236, 72, 153, 0.1);
+  --shadow-neon-cyan: 0 0 10px rgba(6, 182, 212, 0.5),
+    0 0 20px rgba(6, 182, 212, 0.3),
+    0 0 30px rgba(6, 182, 212, 0.1);
+
+  /* ============================================
+     SIDEBAR - GLASSMORPHISM DARK
+     ============================================ */
+  --color-sidebar-background-glass-dark: 222 47% 11% / 0.7;
+  --color-sidebar-foreground-glass-dark: 210 40% 98%;
+  --color-sidebar-primary-glass-dark: 271 91% 65%;
+  --color-sidebar-primary-foreground-glass-dark: 0 0% 100%;
+  --color-sidebar-accent-glass-dark: 217 33% 17% / 0.5;
+  --color-sidebar-accent-foreground-glass-dark: 271 91% 65%;
+  --color-sidebar-border-glass-dark: 217 33% 17% / 0.4;
+  --color-sidebar-ring-glass-dark: 271 91% 65%;
+}
+
+/* ============================================
+   GLASSMORPHISM DARK - Component Styling
+   ============================================ */
+
+.glass-dark,
+[data-theme="glass-dark"],
+.dark.glass,
+.dark[data-theme="glass"] {
+  /* Apply dark glassmorphism colors */
+  --background: var(--color-background-glass-dark);
+  --foreground: var(--color-foreground-glass-dark);
+
+  --card: var(--color-card-glass-dark);
+  --card-foreground: var(--color-card-foreground-glass-dark);
+
+  --popover: var(--color-popover-glass-dark);
+  --popover-foreground: var(--color-popover-foreground-glass-dark);
+
+  --primary: var(--color-primary-glass-dark);
+  --primary-foreground: var(--color-primary-foreground-glass-dark);
+
+  --secondary: var(--color-secondary-glass-dark);
+  --secondary-foreground: var(--color-secondary-foreground-glass-dark);
+
+  --muted: var(--color-muted-glass-dark);
+  --muted-foreground: var(--color-muted-foreground-glass-dark);
+
+  --accent: var(--color-accent-glass-dark);
+  --accent-foreground: var(--color-accent-foreground-glass-dark);
+
+  --destructive: var(--color-destructive-glass-dark);
+  --destructive-foreground: var(--color-destructive-foreground-glass-dark);
+
+  /* Success - Neon green for dark glass */
+  --success: 142.1 70.6% 45.3%;
+  --success-foreground: 0 0% 100%;
+
+  /* Warning - Neon amber for dark glass */
+  --warning: 32.1 94.6% 52%;
+  --warning-foreground: 0 0% 100%;
+
+  --border: var(--color-border-glass-dark);
+  --input: var(--color-input-glass-dark);
+  --ring: var(--color-ring-glass-dark);
+
+  --radius: var(--radius-xl);
+
+  /* Neon chart colors */
+  --chart-1: #8b5cf6;
+  /* Purple */
+  --chart-2: #14b8a6;
+  /* Teal */
+  --chart-3: #fbbf24;
+  /* Amber */
+  --chart-4: #f87171;
+  /* Red */
+  --chart-5: #ec4899;
+  /* Pink */
+  --chart-6: #06b6d4;
+  /* Cyan */
+  --chart-7: #a78bfa;
+  /* Light Purple */
+  --chart-8: #fb923c;
+  /* Orange */
+
+  /* Sidebar */
+  --sidebar-background: var(--color-sidebar-background-glass-dark);
+  --sidebar-foreground: var(--color-sidebar-foreground-glass-dark);
+  --sidebar-primary: var(--color-sidebar-primary-glass-dark);
+  --sidebar-primary-foreground: var(--color-sidebar-primary-foreground-glass-dark);
+  --sidebar-accent: var(--color-sidebar-accent-glass-dark);
+  --sidebar-accent-foreground: var(--color-sidebar-accent-foreground-glass-dark);
+  --sidebar-border: var(--color-sidebar-border-glass-dark);
+  --sidebar-ring: var(--color-sidebar-ring-glass-dark);
+
+  /* Apply dark glass shadows */
+  --shadow-sm: var(--shadow-glass-sm-dark);
+  --shadow-base: var(--shadow-glass-base-dark);
+  --shadow-md: var(--shadow-glass-md-dark);
+  --shadow-lg: var(--shadow-glass-lg-dark);
+  --shadow-xl: var(--shadow-glass-xl-dark);
+  --shadow-2xl: var(--shadow-glass-2xl-dark);
+}
+
+/*
+   DEEP NEON GRADIENT BACKGROUND - DARK
+   Essential for glassmorphism to show the blur effect
+*/
+html.glass-dark body,
+body[data-theme="glass-dark"] {
+  background-color: #0f172a;
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 100%, hsla(225, 39%, 25%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(339, 49%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(270, 50%, 20%, 1) 0, transparent 50%),
+    radial-gradient(at 20% 50%, hsla(200, 50%, 20%, 1) 0, transparent 50%);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Dark glass card effect - Increased opacity for readability */
+.glass-dark .card-base,
+.glass-dark [class*="card"],
+.glass-dark .bg-card,
+.glass-dark .bg-background,
+.glass-dark .bg-\[\#0F0F12\],
+.glass-dark .popover-content,
+.glass-dark [role="dialog"],
+.glass-dark [role="menu"],
+.glass-dark [role="tooltip"],
+.glass-dark [data-state="open"] {
+  background: rgba(15, 23, 42, 0.9) !important;
+  /* Increased to 0.9 */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  color: hsl(var(--foreground));
+  /* Ensure text is visible */
+}
+
+/* Sidebar glass effect */
+.glass-dark nav,
+.glass-dark aside {
+  background: rgba(15, 23, 42, 0.75) !important;
+  /* Increased from 0.5 */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Dark glass button with neon effect */
+.glass-dark .button-base,
+.glass-dark button {
+  background: var(--glass-background-weak-dark);
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  border: 1px solid var(--glass-border-dark);
+  transition: all var(--transition-base);
+}
+
+.glass-dark .button-base:hover,
+.glass-dark button:hover {
+  background: var(--glass-background-strong-dark);
+  border-color: var(--glass-border-glow-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass-lg-dark), var(--shadow-neon-purple);
+}
+
+/* Dark glass input effect */
+.glass-dark .input-base,
+.glass-dark input,
+.glass-dark textarea,
+.glass-dark select {
+  background: var(--glass-background-weak-dark);
+  backdrop-filter: blur(var(--blur-base));
+  -webkit-backdrop-filter: blur(var(--blur-base));
+  border: 1px solid var(--glass-border-dark);
+  color: hsl(var(--foreground));
+}
+
+.glass-dark .input-base:focus,
+.glass-dark input:focus,
+.glass-dark textarea:focus,
+.glass-dark select:focus {
+  background: var(--glass-background-dark);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsla(var(--primary) / 0.2), var(--shadow-neon-purple);
+}
+
+/* Dark glass modal/dialog backdrop */
+.glass-dark .overlay .backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(var(--blur-3xl));
+  -webkit-backdrop-filter: blur(var(--blur-3xl));
+}
+
+/* Neon gradient text effect */
+.glass-dark .gradient-text {
+  background: var(--gradient-neon);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: var(--font-weight-bold);
+}
+
+/* Neon glowing border effect */
+.glass-dark .glow-border {
+  position: relative;
+  border: 1px solid transparent;
+  background: linear-gradient(var(--glass-background-dark), var(--glass-background-dark)) padding-box,
+    var(--gradient-primary-dark) border-box;
+  box-shadow: var(--shadow-neon-purple);
+}
+
+.glass-dark .glow-border:hover {
+  box-shadow: var(--shadow-neon-purple), 0 0 40px rgba(139, 92, 246, 0.2);
+}
+
+/* Neon accent elements */
+.glass-dark .neon-accent {
+  position: relative;
+}
+
+.glass-dark .neon-accent::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-neon);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: -1;
+  filter: blur(10px);
+}
+
+.glass-dark .neon-accent:hover::before {
+  opacity: 0.7;
+}
+
+/* Selection color for dark glass theme */
+.glass-dark ::selection {
+  background: var(--glass-primary-light-dark);
+  color: hsl(var(--primary));
+}
+
+/* Scrollbar for dark glass theme */
+.glass-dark ::-webkit-scrollbar-thumb {
+  background: var(--glass-background-strong-dark);
+  backdrop-filter: blur(var(--blur-base));
+  border: 2px solid var(--glass-border-dark);
+}
+
+.glass-dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.3);
+  box-shadow: var(--shadow-neon-purple);
+}
+
+/* Code blocks in dark glass theme */
+.glass-dark code {
+  background: var(--glass-background-weak-dark);
+  backdrop-filter: blur(var(--blur-sm));
+  border: 1px solid var(--glass-border-dark);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Enhanced table styling */
+.glass-dark table {
+  background: var(--glass-background-weak-dark);
+  backdrop-filter: blur(var(--blur-md));
+  border: 1px solid var(--glass-border-dark);
+  border-radius: var(--radius-lg);
+}
+
+.glass-dark table th {
+  background: var(--glass-background-dark);
+  border-bottom: 1px solid var(--glass-border-glow-dark);
+}
+
+.glass-dark table tr:hover {
+  background: var(--glass-background-dark);
+}

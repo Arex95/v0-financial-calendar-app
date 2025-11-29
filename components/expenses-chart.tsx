@@ -124,14 +124,14 @@ export default function ExpensesChart({ expenses, className }: ExpensesChartProp
   return (
     <div
       className={cn(
-        "w-full bg-white dark:bg-[#0F0F12] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-[#1F1F23]",
+        "w-full bg-card rounded-lg sm:rounded-xl p-4 sm:p-6 border border-border",
         className,
       )}
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Expenses Trend</h3>
+        <h3 className="text-base sm:text-lg font-bold text-card-foreground">Expenses Trend</h3>
         <div className="flex flex-wrap gap-2">
-          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          <div className="flex bg-muted rounded-lg p-1">
             {(["day", "month", "year"] as const).map((g) => (
               <button
                 key={g}
@@ -139,15 +139,15 @@ export default function ExpensesChart({ expenses, className }: ExpensesChartProp
                 className={cn(
                   "px-3 py-1 text-xs font-medium rounded-md transition-colors capitalize",
                   granularity === g
-                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white",
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {g}
               </button>
             ))}
           </div>
-          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          <div className="flex bg-muted rounded-lg p-1">
             {(["line", "bar"] as const).map((t) => (
               <button
                 key={t}
@@ -155,8 +155,8 @@ export default function ExpensesChart({ expenses, className }: ExpensesChartProp
                 className={cn(
                   "px-3 py-1 text-xs font-medium rounded-md transition-colors capitalize",
                   chartType === t
-                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white",
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {t}
@@ -170,15 +170,15 @@ export default function ExpensesChart({ expenses, className }: ExpensesChartProp
         <ResponsiveContainer width="100%" height={300}>
           {chartType === "line" ? (
             <LineChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="opacity-50" />
-              <XAxis dataKey="name" stroke="#9ca3af" tick={{ fontSize: 12 }} tickMargin={10} />
-              <YAxis stroke="#9ca3af" tick={{ fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" className="opacity-50" />
+              <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" tick={{ fontSize: 12 }} tickMargin={10} />
+              <YAxis stroke="hsl(var(--muted-foreground))" tick={{ fontSize: 12 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#1f2937",
-                  border: "none",
+                  backgroundColor: "hsl(var(--popover))",
+                  border: "1px solid hsl(var(--border))",
                   borderRadius: "8px",
-                  color: "#fff",
+                  color: "hsl(var(--popover-foreground))",
                   fontSize: "12px",
                 }}
               />
@@ -187,76 +187,76 @@ export default function ExpensesChart({ expenses, className }: ExpensesChartProp
                 type="monotone"
                 dataKey="amount"
                 name="Expenses"
-                stroke="#3b82f6"
+                stroke="hsl(var(--primary))"
                 strokeWidth={3}
-                dot={{ fill: "#3b82f6", r: 4, strokeWidth: 2, stroke: "#fff" }}
+                dot={{ fill: "hsl(var(--primary))", r: 4, strokeWidth: 2, stroke: "hsl(var(--background))" }}
                 activeDot={{ r: 6, strokeWidth: 0 }}
               />
             </LineChart>
           ) : (
             <BarChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="opacity-50" />
-              <XAxis dataKey="name" stroke="#9ca3af" tick={{ fontSize: 12 }} tickMargin={10} />
-              <YAxis stroke="#9ca3af" tick={{ fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" className="opacity-50" />
+              <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" tick={{ fontSize: 12 }} tickMargin={10} />
+              <YAxis stroke="hsl(var(--muted-foreground))" tick={{ fontSize: 12 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#1f2937",
-                  border: "none",
+                  backgroundColor: "hsl(var(--popover))",
+                  border: "1px solid hsl(var(--border))",
                   borderRadius: "8px",
-                  color: "#fff",
+                  color: "hsl(var(--popover-foreground))",
                   fontSize: "12px",
                 }}
-                cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
+                cursor={{ fill: "hsl(var(--muted)/0.2)" }}
               />
               <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "20px" }} />
-              <Bar dataKey="amount" name="Expenses" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={50} />
+              <Bar dataKey="amount" name="Expenses" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} maxBarSize={50} />
             </BarChart>
           )}
         </ResponsiveContainer>
       </div>
 
       {stats && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-gray-100 dark:border-gray-800 pt-6">
-          <Card className="bg-gray-50 dark:bg-gray-900/50 border-0 shadow-none">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-border pt-6">
+          <Card className="bg-muted/50 border-0 shadow-none">
             <CardContent className="p-4 flex flex-col gap-1">
-              <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider">
                 <Calendar className="w-3 h-3" />
                 Highest Day
               </div>
-              <div className="text-lg font-bold text-gray-900 dark:text-white">
+              <div className="text-lg font-bold text-foreground">
                 {stats.maxDay.date || "N/A"}
               </div>
-              <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
+              <div className="text-sm font-medium text-primary">
                 ${stats.maxDay.amount.toLocaleString()}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-50 dark:bg-gray-900/50 border-0 shadow-none">
+          <Card className="bg-muted/50 border-0 shadow-none">
             <CardContent className="p-4 flex flex-col gap-1">
-              <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider">
                 <TrendingUp className="w-3 h-3" />
                 Highest Month
               </div>
-              <div className="text-lg font-bold text-gray-900 dark:text-white">
+              <div className="text-lg font-bold text-foreground">
                 {stats.maxMonth.date || "N/A"}
               </div>
-              <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
+              <div className="text-sm font-medium text-primary">
                 ${stats.maxMonth.amount.toLocaleString()}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-50 dark:bg-gray-900/50 border-0 shadow-none">
+          <Card className="bg-muted/50 border-0 shadow-none">
             <CardContent className="p-4 flex flex-col gap-1">
-              <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider">
                 <DollarSign className="w-3 h-3" />
                 Highest Year
               </div>
-              <div className="text-lg font-bold text-gray-900 dark:text-white">
+              <div className="text-lg font-bold text-foreground">
                 {stats.maxYear.date || "N/A"}
               </div>
-              <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
+              <div className="text-sm font-medium text-primary">
                 ${stats.maxYear.amount.toLocaleString()}
               </div>
             </CardContent>

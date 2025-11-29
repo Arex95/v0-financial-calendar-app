@@ -41,7 +41,7 @@ export default function AddEventModal({
 
   const availableCategories = useMemo(() => {
     if (eventType === "income") {
-      return INCOME_CATEGORIES.map(name => ({ id: name, name, color: "#22c55e" })) // Green for income
+      return INCOME_CATEGORIES.map(name => ({ id: name, name, color: "hsl(var(--success))" })) // Success color for income
     }
 
     if (type === "entity" && selectedEntity) {
@@ -50,7 +50,7 @@ export default function AddEventModal({
 
     // Default personal categories fallback
     const personalCats = ["Food & Dining", "Transportation", "Shopping", "Entertainment", "Healthcare", "Other"]
-    return personalCats.map(name => ({ id: name, name, color: "#64748b" }))
+    return personalCats.map(name => ({ id: name, name, color: "hsl(var(--muted-foreground))" }))
   }, [eventType, type, selectedEntity])
 
   useEffect(() => {

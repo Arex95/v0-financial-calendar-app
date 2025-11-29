@@ -166,7 +166,7 @@ export default function EntitiesPage() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className={`font-semibold ${event.eventType === "income" ? "text-green-600" : "text-red-600"}`}>
+                            <div className={`font-semibold ${event.eventType === "income" ? "text-success" : "text-destructive"}`}>
                               {event.eventType === "income" ? "+" : "-"} {event.currency} {event.amount.toFixed(2)}
                             </div>
                             <div className="text-xs text-muted-foreground">{event.category}</div>

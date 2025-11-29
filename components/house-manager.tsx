@@ -26,7 +26,7 @@ export default function HouseManager({ onClose, onAdd, onRemove }: HouseManagerP
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Manage Houses</CardTitle>
-          <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded">
+          <button onClick={onClose} className="p-1 hover:bg-muted rounded">
             <X className="w-4 h-4" />
           </button>
         </CardHeader>
@@ -38,14 +38,14 @@ export default function HouseManager({ onClose, onAdd, onRemove }: HouseManagerP
               value={newHouseName}
               onChange={(e) => setNewHouseName(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleAdd()}
-              className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
+              className="flex-1 px-3 py-2 text-sm rounded-lg border border-input bg-background text-foreground"
             />
             <Button onClick={handleAdd} size="sm">
               <Plus className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-300">
+          <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 text-sm text-primary">
             Houses are auto-detected from your calendar events (format: "$100 House Name Category")
           </div>
 

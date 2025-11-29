@@ -16,10 +16,10 @@ interface BankCardProps {
 }
 
 const cardGradients = {
-  savings: "from-emerald-600 to-green-600",
-  checking: "from-blue-600 to-cyan-600",
-  credit: "from-purple-600 to-pink-600",
-  investment: "from-amber-600 to-orange-600",
+  savings: "from-[var(--chart-2)] to-[var(--chart-2)]/80",
+  checking: "from-[var(--chart-1)] to-[var(--chart-1)]/80",
+  credit: "from-[var(--chart-5)] to-[var(--chart-5)]/80",
+  investment: "from-[var(--chart-3)] to-[var(--chart-3)]/80",
 }
 
 const cardIcons = {
@@ -50,8 +50,8 @@ export default function BankCard({
         "bg-gradient-to-br",
         gradient,
         "rounded-2xl p-6",
-        "border border-white/20 backdrop-blur-md",
-        "hover:border-white/40 hover:shadow-2xl",
+        "border border-primary-foreground/20 backdrop-blur-md",
+        "hover:border-primary-foreground/40 hover:shadow-2xl",
         "transition-all duration-300 transform hover:scale-105 hover:-translate-y-2",
         "shadow-lg dark:shadow-2xl",
         "min-h-[280px] flex flex-col justify-between",
@@ -65,7 +65,7 @@ export default function BankCard({
             {onEdit && (
               <button
                 onClick={onEdit}
-                className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-colors"
+                className="p-2 rounded-lg bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground transition-colors"
               >
                 <Edit2 className="w-4 h-4" />
               </button>
@@ -73,7 +73,7 @@ export default function BankCard({
             {onDelete && (
               <button
                 onClick={onDelete}
-                className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-colors"
+                className="p-2 rounded-lg bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground transition-colors"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -81,16 +81,16 @@ export default function BankCard({
           </div>
         </div>
 
-        <p className="text-white/80 text-sm font-medium mb-2">{name}</p>
-        <h3 className="text-white text-lg font-semibold mb-6">
+        <p className="text-primary-foreground/80 text-sm font-medium mb-2">{name}</p>
+        <h3 className="text-primary-foreground text-lg font-semibold mb-6">
           {cardType.charAt(0).toUpperCase() + cardType.slice(1)}
         </h3>
       </div>
 
       <div className="space-y-4">
         <div>
-          <p className="text-white/70 text-xs font-medium mb-1">Balance</p>
-          <p className="text-white text-3xl font-bold">
+          <p className="text-primary-foreground/70 text-xs font-medium mb-1">Balance</p>
+          <p className="text-primary-foreground text-3xl font-bold">
             {currency}
             {balance.toFixed(2)}
           </p>
@@ -98,14 +98,14 @@ export default function BankCard({
 
         {limit && (
           <div>
-            <p className="text-white/70 text-xs font-medium mb-1">Credit Limit</p>
-            <div className="w-full bg-white/20 rounded-full h-2">
+            <p className="text-primary-foreground/70 text-xs font-medium mb-1">Credit Limit</p>
+            <div className="w-full bg-primary-foreground/20 rounded-full h-2">
               <div
-                className="bg-white rounded-full h-2 transition-all"
+                className="bg-primary-foreground rounded-full h-2 transition-all"
                 style={{ width: `${Math.min((balance / limit) * 100, 100)}%` }}
               />
             </div>
-            <p className="text-white/80 text-xs mt-1">
+            <p className="text-primary-foreground/80 text-xs mt-1">
               {currency}
               {balance.toFixed(2)} / {currency}
               {limit.toFixed(2)}
@@ -113,7 +113,7 @@ export default function BankCard({
           </div>
         )}
 
-        <p className="text-white/70 text-sm font-mono">•••• •••• •••• {lastFourDigits}</p>
+        <p className="text-primary-foreground/70 text-sm font-mono">•••• •••• •••• {lastFourDigits}</p>
       </div>
     </div>
   )

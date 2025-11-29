@@ -1,0 +1,243 @@
+/**
+ * Light Theme - Standard
+ * Professional light theme with clean, modern aesthetics
+ * Optimized for financial data visualization and readability
+ */
+
+@theme {
+   /* ============================================
+     COLOR PALETTE - NEUTRAL SCALE
+     ============================================ */
+   --color-neutral-50: #fafafa;
+   --color-neutral-100: #f5f5f5;
+   --color-neutral-200: #e5e5e5;
+   --color-neutral-300: #d4d4d4;
+   --color-neutral-400: #a3a3a3;
+   --color-neutral-500: #737373;
+   --color-neutral-600: #525252;
+   --color-neutral-700: #404040;
+   --color-neutral-800: #262626;
+   --color-neutral-900: #171717;
+   --color-neutral-950: #0a0a0a;
+
+   /* ============================================
+     COLOR PALETTE - PRIMARY (Blue)
+     ============================================ */
+   --color-primary-50: #eff6ff;
+   --color-primary-100: #dbeafe;
+   --color-primary-200: #bfdbfe;
+   --color-primary-300: #93c5fd;
+   --color-primary-400: #60a5fa;
+   --color-primary-500: #3b82f6;
+   --color-primary-600: #2563eb;
+   --color-primary-700: #1d4ed8;
+   --color-primary-800: #1e40af;
+   --color-primary-900: #1e3a8a;
+   --color-primary-950: #172554;
+
+   /* ============================================
+     COLOR PALETTE - SECONDARY (Violet)
+     ============================================ */
+   --color-secondary-50: #faf5ff;
+   --color-secondary-100: #f3e8ff;
+   --color-secondary-200: #e9d5ff;
+   --color-secondary-300: #d8b4fe;
+   --color-secondary-400: #c084fc;
+   --color-secondary-500: #a855f7;
+   --color-secondary-600: #9333ea;
+   --color-secondary-700: #7e22ce;
+   --color-secondary-800: #6b21a8;
+   --color-secondary-900: #581c87;
+   --color-secondary-950: #3b0764;
+
+   /* ============================================
+     SEMANTIC COLORS
+     ============================================ */
+
+   /* Success - Green */
+   --color-success-50: #f0fdf4;
+   --color-success-500: #22c55e;
+   --color-success-600: #16a34a;
+   --color-success-700: #15803d;
+
+   /* Warning - Amber */
+   --color-warning-50: #fffbeb;
+   --color-warning-500: #f59e0b;
+   --color-warning-600: #d97706;
+   --color-warning-700: #b45309;
+
+   /* Error - Red */
+   --color-error-50: #fef2f2;
+   --color-error-500: #ef4444;
+   --color-error-600: #dc2626;
+   --color-error-700: #b91c1c;
+
+   /* Info - Sky */
+   --color-info-50: #f0f9ff;
+   --color-info-500: #0ea5e9;
+   --color-info-600: #0284c7;
+   --color-info-700: #0369a1;
+
+   /* ============================================
+     CHART COLORS (for financial visualizations)
+     ============================================ */
+   --color-chart-1: #3b82f6;
+   /* Blue */
+   --color-chart-2: #10b981;
+   /* Green */
+   --color-chart-3: #f59e0b;
+   /* Amber */
+   --color-chart-4: #ef4444;
+   /* Red */
+   --color-chart-5: #8b5cf6;
+   /* Purple */
+   --color-chart-6: #ec4899;
+   /* Pink */
+   --color-chart-7: #14b8a6;
+   /* Teal */
+   --color-chart-8: #f97316;
+   /* Orange */
+
+   /* ============================================
+     THEME-SPECIFIC COLOR ASSIGNMENTS
+     ============================================ */
+
+   /* Backgrounds */
+   --color-background: 0 0% 100%;
+   --color-foreground: 0 0% 3.9%;
+
+   /* Surface Colors */
+   --color-card: 0 0% 100%;
+   --color-card-foreground: 0 0% 3.9%;
+
+   --color-popover: 0 0% 100%;
+   --color-popover-foreground: 0 0% 3.9%;
+
+   /* Primary */
+   --color-primary: 221.2 83.2% 53.3%;
+   --color-primary-foreground: 210 40% 98%;
+
+   /* Secondary */
+   --color-secondary: 210 40% 96.1%;
+   --color-secondary-foreground: 222.2 47.4% 11.2%;
+
+   /* Muted */
+   --color-muted: 210 40% 96.1%;
+   --color-muted-foreground: 215.4 16.3% 46.9%;
+
+   /* Accent */
+   --color-accent: 210 40% 96.1%;
+   --color-accent-foreground: 222.2 47.4% 11.2%;
+
+   /* Destructive */
+   --color-destructive: 0 84.2% 60.2%;
+   --color-destructive-foreground: 210 40% 98%;
+
+   /* Borders */
+   --color-border: 214.3 31.8% 91.4%;
+   --color-input: 214.3 31.8% 91.4%;
+   --color-ring: 221.2 83.2% 53.3%;
+
+   /* ============================================
+     SHADOWS
+     ============================================ */
+   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+   --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+
+   /* ============================================
+     SIDEBAR SPECIFIC (for your app)
+     ============================================ */
+   --color-sidebar-background: 0 0% 98%;
+   --color-sidebar-foreground: 240 5.3% 26.1%;
+   --color-sidebar-primary: 240 5.9% 10%;
+   --color-sidebar-primary-foreground: 0 0% 98%;
+   --color-sidebar-accent: 240 4.8% 95.9%;
+   --color-sidebar-accent-foreground: 240 5.9% 10%;
+   --color-sidebar-border: 220 13% 91%;
+   --color-sidebar-ring: 217.2 91.2% 59.8%;
+}
+
+/* ============================================
+   COMPONENT THEMING - Light
+   ============================================ */
+
+:root {
+   /* Apply theme colors */
+   --background: var(--color-background);
+   --foreground: var(--color-foreground);
+
+   --card: var(--color-card);
+   --card-foreground: var(--color-card-foreground);
+
+   --popover: var(--color-popover);
+   --popover-foreground: var(--color-popover-foreground);
+
+   --primary: var(--color-primary);
+   --primary-foreground: var(--color-primary-foreground);
+
+   --secondary: var(--color-secondary);
+   --secondary-foreground: var(--color-secondary-foreground);
+
+   --muted: var(--color-muted);
+   --muted-foreground: var(--color-muted-foreground);
+
+   --accent: var(--color-accent);
+   --accent-foreground: var(--color-accent-foreground);
+
+   --destructive: var(--color-destructive);
+   --destructive-foreground: var(--color-destructive-foreground);
+
+   /* Success */
+   --success: 142.1 76.2% 36.3%;
+   --success-foreground: 210 40% 98%;
+
+   /* Warning */
+   --warning: 32.1 94.6% 43.7%;
+   --warning-foreground: 222.2 47.4% 11.2%;
+
+   --border: var(--color-border);
+   --input: var(--color-input);
+   --ring: var(--color-ring);
+
+   --radius: var(--radius-lg);
+
+   /* Chart colors */
+   --chart-1: var(--color-chart-1);
+   --chart-2: var(--color-chart-2);
+   --chart-3: var(--color-chart-3);
+   --chart-4: var(--color-chart-4);
+   --chart-5: var(--color-chart-5);
+   --chart-6: var(--color-chart-6);
+   --chart-7: var(--color-chart-7);
+   --chart-8: var(--color-chart-8);
+
+   /* Sidebar */
+   --sidebar-background: var(--color-sidebar-background);
+   --sidebar-foreground: var(--color-sidebar-foreground);
+   --sidebar-primary: var(--color-sidebar-primary);
+   --sidebar-primary-foreground: var(--color-sidebar-primary-foreground);
+   --sidebar-accent: var(--color-sidebar-accent);
+   --sidebar-accent-foreground: var(--color-sidebar-accent-foreground);
+   --sidebar-border: var(--color-sidebar-border);
+   --sidebar-ring: var(--color-sidebar-ring);
+}
+
+/* Scrollbar theming for light mode */
+::-webkit-scrollbar-thumb {
+   background-color: var(--color-neutral-300);
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background-color: var(--color-neutral-400);
+}
+
+/* Selection color */
+::selection {
+   background-color: var(--color-primary-200);
+   color: var(--color-primary-900);
+}

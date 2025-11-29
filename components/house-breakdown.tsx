@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 interface HouseData {
   name: string
   value: number
+  [key: string]: any
 }
 
 interface HouseBreakdownProps {
@@ -13,7 +14,16 @@ interface HouseBreakdownProps {
   className?: string
 }
 
-const COLORS = ["#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981", "#06b6d4", "#6366f1", "#f97316"]
+const COLORS = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--chart-6))",
+  "hsl(var(--chart-7))",
+  "hsl(var(--chart-8))"
+]
 
 export default function HouseBreakdown({ data, className }: HouseBreakdownProps) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 640
@@ -21,11 +31,11 @@ export default function HouseBreakdown({ data, className }: HouseBreakdownProps)
   return (
     <div
       className={cn(
-        "w-full bg-white dark:bg-[#0F0F12] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-[#1F1F23]",
+        "w-full bg-card rounded-lg sm:rounded-xl p-4 sm:p-6 border border-border",
         className,
       )}
     >
-      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4">Expenses by Entity</h3>
+      <h3 className="text-base sm:text-lg font-bold text-card-foreground mb-4">Expenses by Entity</h3>
 
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
@@ -36,7 +46,7 @@ export default function HouseBreakdown({ data, className }: HouseBreakdownProps)
             labelLine={false}
             label={isMobile ? false : ({ name, value }) => `${name}: $${value.toFixed(0)}`}
             outerRadius={isMobile ? 70 : 100}
-            fill="#8884d8"
+            fill="hsl(var(--primary))"
             dataKey="value"
           >
             {data.map((entry, index) => (
@@ -46,10 +56,10 @@ export default function HouseBreakdown({ data, className }: HouseBreakdownProps)
           <Tooltip
             formatter={(value: number) => `$${value.toFixed(2)}`}
             contentStyle={{
-              backgroundColor: "#1f2937",
-              border: "none",
+              backgroundColor: "hsl(var(--popover))",
+              border: "1px solid hsl(var(--border))",
               borderRadius: "8px",
-              color: "#fff",
+              color: "hsl(var(--popover-foreground))",
               fontSize: "12px",
             }}
           />

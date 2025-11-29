@@ -60,7 +60,7 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">${houseData.totalExpenses.toFixed(2)}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">{houseData.expenses.length} expenses</p>
+            <p className="text-sm text-muted-foreground mt-2">{houseData.expenses.length} expenses</p>
           </CardContent>
         </Card>
 
@@ -84,15 +84,18 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
           {expensesByWeek.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={expensesByWeek}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
-                <Line type="monotone" dataKey="amount" stroke="#3b82f6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
+                <Tooltip
+                  formatter={(value: number) => `$${value.toFixed(2)}`}
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--card-foreground))' }}
+                />
+                <Line type="monotone" dataKey="amount" stroke="hsl(var(--primary))" />
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-gray-500 dark:text-gray-400 text-center py-8">No data available</p>
+            <p className="text-muted-foreground text-center py-8">No data available</p>
           )}
         </CardContent>
       </Card>
@@ -105,15 +108,18 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
           {expensesByCategory.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={expensesByCategory}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
-                <Bar dataKey="value" fill="#8b5cf6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
+                <Tooltip
+                  formatter={(value: number) => `$${value.toFixed(2)}`}
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--card-foreground))' }}
+                />
+                <Bar dataKey="value" fill="hsl(var(--primary))" />
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <p className="text-gray-500 dark:text-gray-400 text-center py-8">No data available</p>
+            <p className="text-muted-foreground text-center py-8">No data available</p>
           )}
         </CardContent>
       </Card>
@@ -127,19 +133,19 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2 px-3">Date</th>
-                    <th className="text-left py-2 px-3">Category</th>
-                    <th className="text-left py-2 px-3">Payment</th>
-                    <th className="text-right py-2 px-3">Amount</th>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-2 px-3 text-muted-foreground">Date</th>
+                    <th className="text-left py-2 px-3 text-muted-foreground">Category</th>
+                    <th className="text-left py-2 px-3 text-muted-foreground">Description</th>
+                    <th className="text-right py-2 px-3 text-muted-foreground">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   {houseData.expenses.map((expense) => (
-                    <tr key={expense.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                    <tr key={expense.id} className="border-b border-border hover:bg-muted/50">
                       <td className="py-2 px-3">{new Date(expense.date).toLocaleDateString()}</td>
                       <td className="py-2 px-3">{expense.category}</td>
-                      <td className="py-2 px-3">{expense.paymentMethod}</td>
+                      <td className="py-2 px-3">{expense.description}</td>
                       <td className="text-right py-2 px-3 font-semibold">
                         {expense.currency} {expense.amount.toFixed(2)}
                       </td>
@@ -149,7 +155,7 @@ export default function HouseDashboard({ house, houseData, onBack }: HouseDashbo
               </table>
             </div>
           ) : (
-            <p className="text-gray-500 dark:text-gray-400">No expenses recorded</p>
+            <p className="text-muted-foreground">No expenses recorded</p>
           )}
         </CardContent>
       </Card>

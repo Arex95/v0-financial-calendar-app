@@ -182,7 +182,7 @@ export function addEvent(event: Omit<Event, "id">): Event {
   const data = getFinancialData()
   const newEvent: Event = {
     ...event,
-    id: `evt-${Date.now()}`,
+    id: `evt-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
   }
 
   if (event.type === "entity" && event.entityId) {
@@ -262,7 +262,7 @@ export function removeExpense(expenseId: string): void {
 
 export function addEntity(name: string, type: Entity["type"], currency = "USD"): Entity {
   const data = getFinancialData()
-  const entityId = `entity-${Date.now()}`
+  const entityId = `entity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   const newEntity: Entity = {
     id: entityId,
     name: name,
@@ -290,7 +290,7 @@ export function addAccount(account: Omit<Account, "id" | "createdAt">): Account 
   const data = getFinancialData()
   const newAccount: Account = {
     ...account,
-    id: `acc-${Date.now()}`,
+    id: `acc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     createdAt: new Date().toISOString(),
   }
 
@@ -318,7 +318,7 @@ export function addBankCard(card: Omit<BankCard, "id">): BankCard {
   const data = getFinancialData()
   const newCard: BankCard = {
     ...card,
-    id: `card-${Date.now()}`,
+    id: `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
   }
 
   data.cards.push(newCard)

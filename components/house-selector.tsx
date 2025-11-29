@@ -39,7 +39,7 @@ export default function HouseSelector({ selectedId, className }: HouseSelectorPr
   }, [])
 
   if (loading) {
-    return <div className="text-sm text-gray-600 dark:text-gray-400">Loading houses...</div>
+    return <div className="text-sm text-muted-foreground">Loading houses...</div>
   }
 
   return (
@@ -49,8 +49,8 @@ export default function HouseSelector({ selectedId, className }: HouseSelectorPr
         className={cn(
           "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1",
           !selectedId
-            ? "bg-zinc-900 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900"
-            : "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700",
+            ? "bg-primary text-primary-foreground"
+            : "bg-muted text-muted-foreground hover:bg-muted/80",
         )}
       >
         <Building2 className="w-3.5 h-3.5" />
@@ -64,8 +64,8 @@ export default function HouseSelector({ selectedId, className }: HouseSelectorPr
           className={cn(
             "px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all",
             selectedId === house.id
-              ? "bg-zinc-900 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900"
-              : "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700",
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground hover:bg-muted/80",
           )}
         >
           {house.name}

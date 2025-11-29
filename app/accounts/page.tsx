@@ -151,7 +151,7 @@ export default function AccountsPage() {
                       <div className="space-y-1">
                         <div className="flex justify-between items-center text-xs">
                           <span className="text-muted-foreground">Utilización</span>
-                          <span className={`font-semibold ${usagePercent > 80 ? "text-red-500" : usagePercent > 50 ? "text-yellow-500" : "text-green-500"}`}>
+                          <span className={`font-semibold ${usagePercent > 80 ? "text-destructive" : usagePercent > 50 ? "text-warning" : "text-success"}`}>
                             {usagePercent.toFixed(1)}%
                           </span>
                         </div>

@@ -119,7 +119,7 @@ export default function FinancialBreakdownList({
             {/* Income Section */}
             {breakdown.incomeCategories.length > 0 && (
               <div className="space-y-4">
-                <h3 className="font-semibold text-green-600 flex justify-between items-center">
+                <h3 className="font-semibold text-success flex justify-between items-center">
                   <span>Ingresos</span>
                   <span className="text-sm">
                     ${breakdown.totalIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -137,7 +137,7 @@ export default function FinancialBreakdownList({
                       <Progress
                         value={cat.percentage}
                         className="h-2 bg-secondary"
-                        indicatorClassName={!cat.color ? "bg-green-500" : undefined}
+                        indicatorClassName={!cat.color ? "bg-success" : undefined}
                         indicatorStyle={cat.color ? { backgroundColor: cat.color } : undefined}
                       />
                       <p className="text-xs text-muted-foreground text-right">{cat.percentage.toFixed(1)}%</p>
@@ -150,7 +150,7 @@ export default function FinancialBreakdownList({
             {/* Expenses Section */}
             {breakdown.expenseCategories.length > 0 && (
               <div className="space-y-4">
-                <h3 className="font-semibold text-red-600 flex justify-between items-center">
+                <h3 className="font-semibold text-destructive flex justify-between items-center">
                   <span>Gastos</span>
                   <span className="text-sm">
                     ${breakdown.totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -168,7 +168,7 @@ export default function FinancialBreakdownList({
                       <Progress
                         value={cat.percentage}
                         className="h-2 bg-secondary"
-                        indicatorClassName={!cat.color ? "bg-red-500" : undefined}
+                        indicatorClassName={!cat.color ? "bg-destructive" : undefined}
                         indicatorStyle={cat.color ? { backgroundColor: cat.color } : undefined}
                       />
                       <p className="text-xs text-muted-foreground text-right">{cat.percentage.toFixed(1)}%</p>

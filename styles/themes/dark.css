@@ -1,0 +1,195 @@
+/**
+ * Dark Theme - Standard
+ * Professional dark theme optimized for reduced eye strain
+ * Maintains readability for financial data in low-light environments
+ */
+
+@theme {
+  /* Note: Neutral and color scales are inherited from light theme
+     We only override the theme-specific assignments for dark mode */
+
+  /* ============================================
+     THEME-SPECIFIC COLOR ASSIGNMENTS - DARK
+     ============================================ */
+
+  /* Backgrounds */
+  --color-background-dark: 0 0% 3.9%;
+  --color-foreground-dark: 0 0% 98%;
+
+  /* Surface Colors */
+  --color-card-dark: 0 0% 3.9%;
+  --color-card-foreground-dark: 0 0% 98%;
+
+  --color-popover-dark: 0 0% 3.9%;
+  --color-popover-foreground-dark: 0 0% 98%;
+
+  /* Primary */
+  --color-primary-dark: 217.2 91.2% 59.8%;
+  --color-primary-foreground-dark: 222.2 47.4% 11.2%;
+
+  /* Secondary */
+  --color-secondary-dark: 217.2 32.6% 17.5%;
+  --color-secondary-foreground-dark: 210 40% 98%;
+
+  /* Muted */
+  --color-muted-dark: 217.2 32.6% 17.5%;
+  --color-muted-foreground-dark: 215 20.2% 65.1%;
+
+  /* Accent */
+  --color-accent-dark: 217.2 32.6% 17.5%;
+  --color-accent-foreground-dark: 210 40% 98%;
+
+  /* Destructive */
+  --color-destructive-dark: 0 62.8% 30.6%;
+  --color-destructive-foreground-dark: 210 40% 98%;
+
+  /* Borders */
+  --color-border-dark: 217.2 32.6% 17.5%;
+  --color-input-dark: 217.2 32.6% 17.5%;
+  --color-ring-dark: 224.3 76.3% 48%;
+
+  /* ============================================
+     SHADOWS - DARK (more subtle)
+     ============================================ */
+  --shadow-sm-dark: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-base-dark: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow-md-dark: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg-dark: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --shadow-xl-dark: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+  --shadow-2xl-dark: 0 25px 50px -12px rgb(0 0 0 / 0.6);
+  --shadow-inner-dark: inset 0 2px 4px 0 rgb(0 0 0 / 0.3);
+
+  /* ============================================
+     SIDEBAR SPECIFIC - DARK
+     ============================================ */
+  --color-sidebar-background-dark: 240 5.9% 10%;
+  --color-sidebar-foreground-dark: 240 4.8% 95.9%;
+  --color-sidebar-primary-dark: 224.3 76.3% 48%;
+  --color-sidebar-primary-foreground-dark: 0 0% 100%;
+  --color-sidebar-accent-dark: 240 3.7% 15.9%;
+  --color-sidebar-accent-foreground-dark: 240 4.8% 95.9%;
+  --color-sidebar-border-dark: 240 3.7% 15.9%;
+  --color-sidebar-ring-dark: 217.2 91.2% 59.8%;
+}
+
+/* ============================================
+   COMPONENT THEMING - Dark
+   ============================================ */
+
+.dark {
+  /* Apply dark theme colors */
+  --background: var(--color-background-dark);
+  --foreground: var(--color-foreground-dark);
+
+  --card: var(--color-card-dark);
+  --card-foreground: var(--color-card-foreground-dark);
+
+  --popover: var(--color-popover-dark);
+  --popover-foreground: var(--color-popover-foreground-dark);
+
+  --primary: var(--color-primary-dark);
+  --primary-foreground: var(--color-primary-foreground-dark);
+
+  --secondary: var(--color-secondary-dark);
+  --secondary-foreground: var(--color-secondary-foreground-dark);
+
+  --muted: var(--color-muted-dark);
+  --muted-foreground: var(--color-muted-foreground-dark);
+
+  --accent: var(--color-accent-dark);
+  --accent-foreground: var(--color-accent-foreground-dark);
+
+  --destructive: var(--color-destructive-dark);
+  --destructive-foreground: var(--color-destructive-foreground-dark);
+
+  /* Success */
+  --success: 142.1 70.6% 45.3%;
+  --success-foreground: 144.9 80.4% 10%;
+
+  /* Warning */
+  --warning: 32.1 94.6% 43.7%;
+  --warning-foreground: 20.5 90.2% 48.2%;
+
+  --border: var(--color-border-dark);
+  --input: var(--color-input-dark);
+  --ring: var(--color-ring-dark);
+
+  /* Chart colors - adjusted for dark mode visibility */
+  --chart-1: #60a5fa;
+  /* Lighter Blue */
+  --chart-2: #34d399;
+  /* Lighter Green */
+  --chart-3: #fbbf24;
+  /* Lighter Amber */
+  --chart-4: #f87171;
+  /* Lighter Red */
+  --chart-5: #a78bfa;
+  /* Lighter Purple */
+  --chart-6: #f472b6;
+  /* Lighter Pink */
+  --chart-7: #2dd4bf;
+  /* Lighter Teal */
+  --chart-8: #fb923c;
+  /* Lighter Orange */
+
+  /* Sidebar */
+  --sidebar-background: var(--color-sidebar-background-dark);
+  --sidebar-foreground: var(--color-sidebar-foreground-dark);
+  --sidebar-primary: var(--color-sidebar-primary-dark);
+  --sidebar-primary-foreground: var(--color-sidebar-primary-foreground-dark);
+  --sidebar-accent: var(--color-sidebar-accent-dark);
+  --sidebar-accent-foreground: var(--color-sidebar-accent-foreground-dark);
+  --sidebar-border: var(--color-sidebar-border-dark);
+  --sidebar-ring: var(--color-sidebar-ring-dark);
+
+  /* Override shadows for dark mode */
+  --shadow-sm: var(--shadow-sm-dark);
+  --shadow-base: var(--shadow-base-dark);
+  --shadow-md: var(--shadow-md-dark);
+  --shadow-lg: var(--shadow-lg-dark);
+  --shadow-xl: var(--shadow-xl-dark);
+  --shadow-2xl: var(--shadow-2xl-dark);
+  --shadow-inner: var(--shadow-inner-dark);
+}
+
+/* Scrollbar theming for dark mode */
+.dark ::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--color-neutral-700));
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--color-neutral-600));
+}
+
+/* Selection color for dark mode */
+.dark ::selection {
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-100);
+}
+
+/* Improve contrast for code blocks in dark mode */
+.dark code {
+  background-color: hsl(217.2 32.6% 17.5%);
+  color: hsl(210 40% 98%);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Tables in dark mode */
+.dark table {
+  border-color: var(--border);
+}
+
+/* Form elements in dark mode */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+}
