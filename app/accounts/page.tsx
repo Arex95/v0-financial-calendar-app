@@ -23,7 +23,7 @@ export default function AccountsPage() {
 
   const refreshData = () => setData(getFinancialData())
 
-  const handleAdd Account = () => {
+  const handleAddAccount = () => {
     if (accountName.trim() && (accountType === "Cash" || accountBalance.trim())) {
       addAccount({
         name: accountName.trim(),

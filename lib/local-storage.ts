@@ -293,7 +293,8 @@ export function updateBankCard(cardId: string, updates: Partial<BankCard>): void
 // Category Management
 export function getCategoriesForEntityType(entityType: string): string[] {
   const data = getFinancialData()
-  const customCats = data.customCategories[entityType] || []
+  // CORRECCIÓN: Se añade '|| {}' para evitar el TypeError si 'data.customCategories' es undefined.
+  const customCats = (data.customCategories || {})[entityType] || [] 
   const defaultCats = DEFAULT_CATEGORIES[entityType] || []
   return [...new Set([...defaultCats, ...customCats])]
 }
